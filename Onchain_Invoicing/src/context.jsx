@@ -18,6 +18,6 @@ const InvoiceProvider = ({ children }) => {
   );
 };
 
-const useInvoiceContext = () => useContext(ItemsContext);
+const useInvoiceContext = () => useContext(InvoiceContext);
 
 export { InvoiceContext, InvoiceProvider, useInvoiceContext };
