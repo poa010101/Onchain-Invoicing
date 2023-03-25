@@ -7,7 +7,7 @@ const Login = () => {
   const [selectedNetwork, setSelectedNetwork] = useState(mockNetworkList[0]);
 
   return (
-    <div>
+    <div className="connectWallet">
       <select
         id="network-select"
         value={selectedNetwork}
