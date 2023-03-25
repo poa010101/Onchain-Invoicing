@@ -17,6 +17,7 @@ const Login = () => {
 
             const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
             setAccount(accounts[0]);
+            setWallet(accounts[0]);
             await initializeWeb3(accounts[0]);
         } catch (error) {
             console.error('Error connecting to wallet:', error);
