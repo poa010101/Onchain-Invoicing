@@ -8,6 +8,6 @@
 4. run npm run dev
 5. copy the url to the browser and here you go :)
 
-### Update
+### Update to newest branch
 
 1. type this code: git pull origin Onchain_Invoicing_FD, if there is an input area opened in your terminal, type /q and press enter
