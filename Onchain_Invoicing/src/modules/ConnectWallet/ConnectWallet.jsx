@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useInvoiceContext } from "../../context";
 import "./ConnectWallet.css";
 import Web3 from 'web3';
 
 const mockNetworkList = ["Network", "OKX", "ETC", "MATIC"];
 
 const Login = () => {
+  const { wallet, setWallet } = useInvoiceContext; // if wallet connect, setWallet to true
   const [selectedNetwork, setSelectedNetwork] = useState(mockNetworkList[0]);
     async function connectWallet() {
         try {
@@ -22,7 +24,7 @@ const Login = () => {
     }
 
   return (
-    <div>
+    <div className="connectWallet">
       <select
         id="network-select"
         value={selectedNetwork}
