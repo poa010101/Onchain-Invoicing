@@ -31,47 +31,48 @@ const PaidInvoicing = () => {
           </tr>
         </thead>
         <tbody>
-          {paidInvoicing.map((invoice, index) => {
-            return (
-              <tr key={index}>
-                <td
-                  style={{ border: "1px solid black", gap: 30, width: "14%" }}
-                >
-                  {invoice.invoiceId}
-                </td>
-                <td
-                  style={{ border: "1px solid black", gap: 30, width: "14%" }}
-                >
-                  {invoice.date}
-                </td>
-                <td
-                  style={{ border: "1px solid black", gap: 30, width: "14%" }}
-                >
-                  {invoice.poNumber}
-                </td>
-                <td
-                  style={{ border: "1px solid black", gap: 30, width: "14%" }}
-                >
-                  {invoice.amount}
-                </td>
-                <td
-                  style={{ border: "1px solid black", gap: 30, width: "14%" }}
-                >
-                  {invoice.clientWallet}
-                </td>
-                <td
-                  style={{ border: "1px solid black", gap: 30, width: "14%" }}
-                >
-                  {invoice.paid ? "Paid" : "Unpaid"}
-                </td>
-                <td
-                  style={{ border: "1px solid black", gap: 30, width: "14%" }}
-                >
-                  {invoice.active ? "Active" : "Inactive"}
-                </td>
-              </tr>
-            );
-          })}
+          {paidInvoicing &&
+            paidInvoicing.map((invoice, index) => {
+              return (
+                <tr key={index}>
+                  <td
+                    style={{ border: "1px solid black", gap: 30, width: "14%" }}
+                  >
+                    {invoice.invoiceId}
+                  </td>
+                  <td
+                    style={{ border: "1px solid black", gap: 30, width: "14%" }}
+                  >
+                    {invoice.date}
+                  </td>
+                  <td
+                    style={{ border: "1px solid black", gap: 30, width: "14%" }}
+                  >
+                    {invoice.poNumber}
+                  </td>
+                  <td
+                    style={{ border: "1px solid black", gap: 30, width: "14%" }}
+                  >
+                    {invoice.amount}
+                  </td>
+                  <td
+                    style={{ border: "1px solid black", gap: 30, width: "14%" }}
+                  >
+                    {invoice.clientWallet}
+                  </td>
+                  <td
+                    style={{ border: "1px solid black", gap: 30, width: "14%" }}
+                  >
+                    {invoice.paid ? "Paid" : "Unpaid"}
+                  </td>
+                  <td
+                    style={{ border: "1px solid black", gap: 30, width: "14%" }}
+                  >
+                    {invoice.active ? "Active" : "Inactive"}
+                  </td>
+                </tr>
+              );
+            })}
         </tbody>
       </table>
     </div>

@@ -6,8 +6,7 @@ import Web3 from "web3";
 import "./ConnectWallet.css";
 import contractAbi from "./abi.json";
 
-
-const CONTRACT_ADDRESS = '0x83997e3ad73746824a2133e2015873b6422327D1';
+const CONTRACT_ADDRESS = "0x83997e3ad73746824a2133e2015873b6422327D1";
 
 const Login = () => {
   const {
@@ -17,8 +16,10 @@ const Login = () => {
     setWallet,
     setWalletAddress,
     setSelectedNetwork,
-    contract, setContract,
-    web, setWeb 
+    contract,
+    setContract,
+    web,
+    setWeb,
   } = useInvoiceContext();
 
   const navigateTo = useNavigate();
@@ -39,20 +40,21 @@ const Login = () => {
 
       if (accounts[0].length > 0) {
         console.log("xxx");
-        const contractInstance = new web.eth.Contract(contractAbi, CONTRACT_ADDRESS);
+        const contractInstance = new web.eth.Contract(
+          contractAbi,
+          CONTRACT_ADDRESS
+        );
         setContract(contractInstance);
         await setWalletAddress(accounts[0]);
         // await initializeWeb3(accounts[0]);
         await setWallet(true);
       }
-      console.log('xxxx1', contract)
-
+      console.log("xxxx1", contract);
     } catch (error) {
       console.error("Error connecting to wallet:", error);
     }
   }
   async function initializeWeb3(account) {
-
     // console.log('web3:', web3);
     // console.log('Network ID:', networkId);
     // console.log('User account:', account);
@@ -71,27 +73,28 @@ const Login = () => {
   });
 
   return (
-    <div className="connectWallet">
-      {console.log("xxxx", wallet, walletAddress)}
-      <select
-        id="network-select"
-        value={selectedNetwork}
-        onChange={(e) => setSelectedNetwork(e.target.value)}
-        className="connectWallet_select"
-      >
-        {mockNetworkList.map((network) => (
-          <option
-            key={network}
-            value={network}
-            className="connectWallet_option"
-          >
-            {network}
-          </option>
-        ))}
-      </select>
-      <button className="connectWallet_button" onClick={handleWalletButton}>
-        {wallet ? walletAddress : "Connect Wallet"}
-      </button>
+    <div className="connectWallet-container">
+      <div className="connectWallet">
+        <select
+          id="network-select"
+          value={selectedNetwork}
+          onChange={(e) => setSelectedNetwork(e.target.value)}
+          className="connectWallet_select"
+        >
+          {mockNetworkList.map((network) => (
+            <option
+              key={network}
+              value={network}
+              className="connectWallet_option"
+            >
+              {network}
+            </option>
+          ))}
+        </select>
+        <button className="connectWallet_button" onClick={handleWalletButton}>
+          {wallet ? walletAddress : "Connect Wallet"}
+        </button>
+      </div>
     </div>
   );
 };

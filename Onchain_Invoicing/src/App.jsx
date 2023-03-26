@@ -6,12 +6,16 @@ import MockUnpaidInvoicing from "./Mock_Unpaid_Invoice/Unpaid_Invoicing";
 import PaidInvoicing from "./modules/Paid_Invoicing/Paid_Invoicing";
 import UnpaidInvoicing from "./modules/Unpaid_Invoicing/Unpaid_Invoicing";
 import walletReducer from "./Reducer/WalletReducer";
+import { useInvoiceContext } from "./context";
+
+import "./App.css";
 
 const App = () => {
   const [state, dispatch] = useReducer(walletReducer, {
     invoices: [],
   });
 
+  const { wallet } = useInvoiceContext();
   const [activeTab, setActiveTab] = useState(0);
 
   const handleTabChange = (index) => {
@@ -20,8 +24,10 @@ const App = () => {
   return (
     <BrowserRouter>
       <div>
-        <h1>Onhain Invoicing</h1>
-        <nav>
+        <h1 style={{ textAlign: "center", marginTop: "15%" }}>
+          Onchain Invoicing
+        </h1>
+        {wallet && (
           <ul>
             <li>
               <Link
@@ -51,7 +57,7 @@ const App = () => {
               </Link>
             </li>
           </ul>
-        </nav>
+        )}
 
         <Routes>
           <Route path="/" element={<Login />} />
