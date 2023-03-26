@@ -17,8 +17,10 @@ const Login = () => {
     setWallet,
     setWalletAddress,
     setSelectedNetwork,
-    contract, setContract,
-    web, setWeb 
+    contract,
+    setContract,
+    web,
+    setWeb,
   } = useInvoiceContext();
 
   const navigateTo = useNavigate();
@@ -39,7 +41,10 @@ const Login = () => {
 
       if (accounts[0].length > 0) {
         console.log("xxx");
-        const contractInstance = new web.eth.Contract(contractAbi, CONTRACT_ADDRESS);
+        const contractInstance = new web.eth.Contract(
+          contractAbi,
+          CONTRACT_ADDRESS
+        );
         setContract(contractInstance);
         await setWalletAddress(accounts[0]);
         // await initializeWeb3(accounts[0]);
@@ -71,27 +76,28 @@ const Login = () => {
   });
 
   return (
-    <div className="connectWallet">
-      {console.log("xxxx", wallet, walletAddress)}
-      <select
-        id="network-select"
-        value={selectedNetwork}
-        onChange={(e) => setSelectedNetwork(e.target.value)}
-        className="connectWallet_select"
-      >
-        {mockNetworkList.map((network) => (
-          <option
-            key={network}
-            value={network}
-            className="connectWallet_option"
-          >
-            {network}
-          </option>
-        ))}
-      </select>
-      <button className="connectWallet_button" onClick={handleWalletButton}>
-        {wallet ? walletAddress : "Connect Wallet"}
-      </button>
+    <div className="connectWallet-container">
+      <div className="connectWallet">
+        <select
+          id="network-select"
+          value={selectedNetwork}
+          onChange={(e) => setSelectedNetwork(e.target.value)}
+          className="connectWallet_select"
+        >
+          {mockNetworkList.map((network) => (
+            <option
+              key={network}
+              value={network}
+              className="connectWallet_option"
+            >
+              {network}
+            </option>
+          ))}
+        </select>
+        <button className="connectWallet_button" onClick={handleWalletButton}>
+          {wallet ? walletAddress : "Connect Wallet"}
+        </button>
+      </div>
     </div>
   );
 };
