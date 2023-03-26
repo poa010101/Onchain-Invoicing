@@ -1,8 +1,8 @@
 const WalletReducer = (state, action) => {
     switch (action.type) {
         case "GENERATE_INVOICE":
-            return { ...state, items: [{ ...action.payload }, ...state.items] };
-        case "SUBMIT_INVOICE":
+            return { ...state, invoices: [{ ...action.payload }, ...state.invoices] };
+        case "PAY_INVOICE":
             return {
                 ...state,
                 items: state.items.filter((i) =>
@@ -11,7 +11,7 @@ const WalletReducer = (state, action) => {
                         : action.payload.done
                 )
             };
-        case "PAY_INVOICE":
+        case "DECLINE_INVOICE":
             return {
                 ...state,
                 items: state.items.filter((i) => i.id !== action.payload.id)

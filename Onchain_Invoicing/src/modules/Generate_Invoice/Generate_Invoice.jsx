@@ -3,54 +3,62 @@ import { useInvoiceContext } from "../../context";
 import walletReducer from "../../Reducer/WalletReducer";
 
 const GenerateInvoicing = () => {
-  const [date, setDate] = useState("");
-  const [item, setItem] = useState("");
-  // const [done, setDone] = useState(true)
+  const date = new Date().toLocaleString();
+  const [poNumber, setPoNumber] = useState("");
+  const [amount, setAmount] = useState("");
+  const [clientWallet, setClientWallet] = useState("");
+
+  const { setGeneratedInvoice } = useInvoiceContext();
+
   const [state, dispatch] = useReducer(walletReducer, {
-    items: [
+    invoices: [
       {
-        id: Math.floor(Math.random() * 10000),
+        invoiceId: Math.floor(Math.random() * 10000),
         date: "1/1/2023",
-        item: "study",
-        done: false,
+        poNumber: "123",
+        amount: "$7",
+        clientWallet: "abc",
+        paid: true,
+        active: true,
       },
     ],
   });
-
-  console.log("xxxx", state);
 
   return (
     <div className="App">
       <h1>Generate Invoice</h1>
       <form>
-        <div>
+        <div>Date: {date} </div>
+        <div style={{ marginTop: 10 }}>
           <label>PO Number: </label>
-          <input onChange={(e) => setDate(e.target.value)} />
+          <input onChange={(e) => setPoNumber(e.target.value)} />
         </div>
         <div style={{ marginTop: 10 }}>
           <label>Amount: </label>
-          <input onChange={(e) => setItem(e.target.value)} />
+          <input onChange={(e) => setAmount(e.target.value)} />
         </div>
         <div style={{ marginTop: 10 }}>
           <label>Client Wallet: </label>
-          <input onChange={(e) => setItem(e.target.value)} />
+          <input onChange={(e) => setClientWallet(e.target.value)} />
         </div>
         <button
           style={{ marginTop: 10, marginBottom: 30 }}
           onClick={(e) => {
             e.preventDefault();
             dispatch({
-              type: "ADD_ITEMS",
+              type: "GENERATE_INVOICE",
               payload: {
-                id: Math.floor(Math.random() * 10000),
+                invoiceId: Math.floor(Math.random() * 10000),
                 date: date,
-                item: item,
-                done: false,
+                poNumber: poNumber,
+                amount: amount,
+                clientWallet: clientWallet,
               },
             });
+            setGeneratedInvoice(true);
           }}
         >
-          Add
+          Generate
         </button>
       </form>
 
@@ -58,32 +66,69 @@ const GenerateInvoicing = () => {
       <table style={{ border: "1px solid black", width: "100%" }}>
         <thead>
           <tr>
-            <th style={{ border: "1px solid black", gap: 30, width: "30%" }}>
+            <th style={{ border: "1px solid black", gap: 30, width: "14%" }}>
+              Invoice Number
+            </th>
+            <th style={{ border: "1px solid black", gap: 30, width: "14%" }}>
               Date
             </th>
-            <th style={{ border: "1px solid black", gap: 30, width: "30%" }}>
-              To-Do Item
+            <th style={{ border: "1px solid black", gap: 30, width: "14%" }}>
+              PO Number
             </th>
-            <th style={{ border: "1px solid black", gap: 30, width: "30%" }}>
-              Status
+            <th style={{ border: "1px solid black", gap: 30, width: "14%" }}>
+              Amount
+            </th>
+            <th style={{ border: "1px solid black", gap: 30, width: "14%" }}>
+              Client Wallet
+            </th>
+            <th style={{ border: "1px solid black", gap: 30, width: "14%" }}>
+              Paid
+            </th>
+            <th style={{ border: "1px solid black", gap: 30, width: "14%" }}>
+              Active
             </th>
           </tr>
         </thead>
         <tbody>
-          {state.items.map((todo, index) => {
+          {state.invoices.map((invoice, index) => {
             return (
               <tr key={index}>
                 <td
-                  style={{ border: "1px solid black", gap: 30, width: "30%" }}
+                  style={{ border: "1px solid black", gap: 30, width: "14%" }}
                 >
-                  {todo.date}
+                  {invoice.invoiceId}
                 </td>
                 <td
-                  style={{ border: "1px solid black", gap: 30, width: "30%" }}
+                  style={{ border: "1px solid black", gap: 30, width: "14%" }}
                 >
-                  {todo.item}
+                  {invoice.date}
                 </td>
                 <td
+                  style={{ border: "1px solid black", gap: 30, width: "14%" }}
+                >
+                  {invoice.poNumber}
+                </td>
+                <td
+                  style={{ border: "1px solid black", gap: 30, width: "14%" }}
+                >
+                  {invoice.amount}
+                </td>
+                <td
+                  style={{ border: "1px solid black", gap: 30, width: "14%" }}
+                >
+                  {invoice.clientWallet}
+                </td>
+                <td
+                  style={{ border: "1px solid black", gap: 30, width: "14%" }}
+                >
+                  {invoice.paid ? "Paid" : "Unpaid"}
+                </td>
+                <td
+                  style={{ border: "1px solid black", gap: 30, width: "14%" }}
+                >
+                  {invoice.active ? "Active" : "Inactive"}
+                </td>
+                {/* <td
                   style={{ border: "1px solid black", gap: 30, width: "30%" }}
                 >
                   <button
@@ -97,10 +142,10 @@ const GenerateInvoicing = () => {
                       })
                     }
                   >
-                    {todo.done ? "Done" : "To-Do"}
+                    {invoice.done ? "Done" : "To-Do"}
                   </button>{" "}
                   <button
-                    disabled={todo.done}
+                    disabled={invoice.done}
                     onClick={() =>
                       dispatch({
                         type: "DELETE_BUTTON",
@@ -112,7 +157,7 @@ const GenerateInvoicing = () => {
                   >
                     Delete
                   </button>
-                </td>
+                </td> */}
               </tr>
             );
           })}
