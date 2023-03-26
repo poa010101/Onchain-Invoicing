@@ -28,7 +28,7 @@ const GenerateInvoicing = () => {
 
   // console.log("xxxx", state);
   // console.log("web:", web);
-  // console.log("contract:", contract);
+  console.log("contract:", contract);
   /*
   * address fromWallet,
     address toWallet,
@@ -65,22 +65,17 @@ const GenerateInvoicing = () => {
   const handleGetPaid = () => {
     getPaidInvoice()
   }
+  async function handleGetInfo () {
+    console.log('xxx3', contract.methods.getInvoiceByID(1))
+    const result = await contract.methods.getInvoiceByID(666).call();
+    console.log('Result of info:', result);
+  }
   async function getPaidInvoice() {
     const result = await contract.methods.getUnpaidInvoice(walletAddress, 10).call();
     console.log('Result of getUnpaid:', result);
   }
   async function getUnpaidInvoice(gasPrice, gasEstimate) {
-    const result = await contract.methods.getUnpaidInvoice(walletAddress, 10)
-        .send({ from: walletAddress, gasPrice, gas: gasEstimate })
-        .on('transactionHash', (hash) => {
-          console.log('Transaction hash:', hash);
-        })
-        .on('receipt', (receipt) => {
-          console.log('Transaction receipt:', receipt);
-        })
-        .on('error', (error) => {
-          console.error('Transaction error:', error);
-        });
+    const result = await contract.methods.getUnpaidInvoice(walletAddress, 10).call();
     console.log('Result of createInvoice:', result);
   }
   async function createInvoiceTest() {
@@ -103,6 +98,7 @@ const GenerateInvoicing = () => {
         });
     console.log('Result of createInvoice:', result);
   }
+
   // 0xe1382c12f1da57b83a0ea368bc1e5a0b70b303ff
   return (
     <div className="App">
@@ -170,6 +166,13 @@ const GenerateInvoicing = () => {
             }}
         >
           Get Paid
+        </button>
+        <button
+            onClick={(e) => {
+              handleGetInfo()
+            }}
+        >
+          Get Info
         </button>
       </div>
 

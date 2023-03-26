@@ -6,7 +6,7 @@ import Web3 from "web3";
 import "./ConnectWallet.css";
 import contractAbi from './abi.json';
 
-const CONTRACT_ADDRESS = '0xcabc2A2Da93C5B6B94bdB6930dAE3Ec9BC962d5D';
+const CONTRACT_ADDRESS = '0x83997e3ad73746824a2133e2015873b6422327D1';
 
 const mockNetworkList = ["Network", "OKX", "ETC", "MATIC"];
 
@@ -14,7 +14,6 @@ const Login = () => {
   const { wallet, walletAddress, setWallet, setWalletAddress, contract, setContract, web, setWeb } =
     useInvoiceContext();
   const [selectedNetwork, setSelectedNetwork] = useState(mockNetworkList[0]);
-
   const navigateTo = useNavigate();
 
   async function connectWallet() {
@@ -33,10 +32,13 @@ const Login = () => {
 
       if (accounts[0].length > 0) {
         console.log("xxx");
+        const contractInstance = new web.eth.Contract(contractAbi, CONTRACT_ADDRESS);
+        setContract(contractInstance);
         await setWalletAddress(accounts[0]);
-        await initializeWeb3(accounts[0]);
+        // await initializeWeb3(accounts[0]);
         await setWallet(true);
       }
+      console.log('xxxx1', contract)
 
     } catch (error) {
       console.error("Error connecting to wallet:", error);
@@ -45,13 +47,11 @@ const Login = () => {
   async function initializeWeb3(account) {
 
 
-    const contractInstance = new web.eth.Contract(contractAbi, CONTRACT_ADDRESS);
+
     // console.log('web3:', web3);
     // console.log('Network ID:', networkId);
     // console.log('User account:', account);
     // console.log('Contract instance:', contractInstance);
-
-    setContract(contractInstance);
     // console.log('Contract instance:', contract);
   }
 
