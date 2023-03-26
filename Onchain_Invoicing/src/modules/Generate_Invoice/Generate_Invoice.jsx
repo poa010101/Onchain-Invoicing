@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useInvoiceContext } from "../../context";
 
 const GenerateInvoicing = () => {
-  const { wallet } = useInvoiceContext();
+  const { wallet, walletAddress } = useInvoiceContext();
   const navigateTo = useNavigate();
 
   useEffect(() => {
@@ -13,6 +13,7 @@ const GenerateInvoicing = () => {
   });
   return (
     <div>
+      {console.log("xxxx", wallet, walletAddress)}
       <form>
         <label>PO. Number</label>
         <input />
