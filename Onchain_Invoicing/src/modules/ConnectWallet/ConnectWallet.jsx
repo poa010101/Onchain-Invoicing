@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useInvoiceContext } from "../../context";
+import Web3 from "web3";
 import "./ConnectWallet.css";
 
 const mockNetworkList = ["Network", "OKX", "ETC", "MATIC"];
 
 const Login = () => {
-  const { setWallet, setWalletAddress } = useInvoiceContext();
+  const { wallet, walletAddress, setWallet, setWalletAddress } =
+    useInvoiceContext();
   const [selectedNetwork, setSelectedNetwork] = useState(mockNetworkList[0]);
 
   async function connectWallet() {
@@ -18,13 +20,14 @@ const Login = () => {
       const accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
-      console.log(accounts[0]);
-      await initializeWeb3(accounts[0]);
-      if (accounts[0]) {
+      console.log("xxxx21", accounts[0], wallet, walletAddress);
+
+      if (accounts[0].length > 0) {
+        console.log("xxx");
         setWallet(true);
         setWalletAddress(accounts[0]);
       }
-      console.log("xxxx", wallet, walletAddress);
+      await initializeWeb3(accounts[0]);
     } catch (error) {
       console.error("Error connecting to wallet:", error);
     }
