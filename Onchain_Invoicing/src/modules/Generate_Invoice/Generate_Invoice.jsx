@@ -31,6 +31,7 @@ const GenerateInvoicing = ({ state, dispatch }) => {
   // console.log("xxxx", state);
   console.log("web:", web);
   console.log("contract:", contract);
+  console.log(state.invoices, paidInvoicing);
 
   return (
     <div className="App">
@@ -65,7 +66,7 @@ const GenerateInvoicing = ({ state, dispatch }) => {
             dispatch({
               type: "GENERATE_INVOICE",
               payload: {
-                invoiceId: Math.floor(Math.random() * 10000),
+                invoiceId: Math.floor(Math.random() * 1000000000000000),
                 date: date,
                 poNumber: poNumber,
                 amount: amount,

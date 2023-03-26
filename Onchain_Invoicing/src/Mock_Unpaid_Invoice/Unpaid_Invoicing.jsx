@@ -1,8 +1,15 @@
-import { useState } from "react";
-import { mockUnpaidData } from "./mockUpaidInvoicing";
+import { useState, useEffect } from "react";
 
-const UnpaidInvoicing = () => {
-  const [payInvoice, setPayInvoice] = useState(mockUnpaidData);
+const Unpaid_Invoicing = () => {
+  const unpaidInvoicingString = sessionStorage.getItem("unpaid_invoicing");
+  const unpaidInvoicing = JSON.parse(unpaidInvoicingString);
+
+  const [payInvoice, setPayInvoice] = useState(unpaidInvoicing);
+
+  useEffect(() => {
+    const paidInvoice = JSON.stringify(payInvoice);
+    sessionStorage.setItem("paid_invoicing", paidInvoice);
+  });
 
   const handleButton = (invoiceId) => {
     const updatedInvoice = payInvoice.map((invoice) =>
@@ -97,4 +104,4 @@ const UnpaidInvoicing = () => {
   );
 };
 
-export default UnpaidInvoicing;
+export default Unpaid_Invoicing;
