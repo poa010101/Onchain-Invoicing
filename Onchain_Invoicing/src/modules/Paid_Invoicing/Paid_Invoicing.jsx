@@ -50,7 +50,7 @@ const PaidInvoicing = () => {
                         width: "14%",
                       }}
                     >
-                      {invoice.invoiceId}
+                      {invoice[0]}
                     </td>
                     <td
                       style={{
@@ -59,7 +59,7 @@ const PaidInvoicing = () => {
                         width: "14%",
                       }}
                     >
-                      {invoice.date}
+                      {Date(invoice[3] * 1000)}
                     </td>
                     <td
                       style={{
@@ -68,7 +68,7 @@ const PaidInvoicing = () => {
                         width: "14%",
                       }}
                     >
-                      {invoice.poNumber}
+                      {invoice[7]}
                     </td>
                     <td
                       style={{
@@ -86,7 +86,7 @@ const PaidInvoicing = () => {
                         width: "14%",
                       }}
                     >
-                      {invoice.clientWallet}
+                      {invoice[2]}
                     </td>
                     <td
                       style={{
@@ -119,7 +119,7 @@ const PaidInvoicing = () => {
                         width: "14%",
                       }}
                     >
-                      {invoice.invoiceId}
+                      {invoice[0]}
                     </td>
                     <td
                       style={{
@@ -128,7 +128,7 @@ const PaidInvoicing = () => {
                         width: "14%",
                       }}
                     >
-                      {invoice.date}
+                      {Date(invoice[3] * 1000)}
                     </td>
                     <td
                       style={{
@@ -137,7 +137,7 @@ const PaidInvoicing = () => {
                         width: "14%",
                       }}
                     >
-                      {invoice.poNumber}
+                      {invoice[7]}
                     </td>
                     <td
                       style={{
@@ -155,7 +155,7 @@ const PaidInvoicing = () => {
                         width: "14%",
                       }}
                     >
-                      {invoice.clientWallet}
+                      {invoice[2]}
                     </td>
                     <td
                       style={{
