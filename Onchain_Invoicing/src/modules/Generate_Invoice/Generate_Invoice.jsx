@@ -125,9 +125,9 @@ const GenerateInvoicing = ({ state, dispatch }) => {
   // 0xe1382c12f1da57b83a0ea368bc1e5a0b70b303ff
   return (
     <div className="App">
-      <div class="info-container">
-        <div class="info-box">Current Network: {selectedNetwork}</div>
-        <div class="info-box">Wallet Address: {walletAddress}</div>
+      <div className="info-container">
+        <div className="info-box">Current Network: {selectedNetwork}</div>
+        <div className="info-box">Wallet Address: {walletAddress}</div>
       </div>
 
       <div className="form-container">
