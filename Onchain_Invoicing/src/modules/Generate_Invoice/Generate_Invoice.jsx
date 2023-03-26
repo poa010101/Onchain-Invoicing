@@ -27,9 +27,41 @@ const GenerateInvoicing = () => {
   });
 
   // console.log("xxxx", state);
-  console.log("web:", web);
-  console.log("contract:", contract);
-
+  // console.log("web:", web);
+  // console.log("contract:", contract);
+  /*
+  * address fromWallet,
+    address toWallet,
+    uint256 amount,
+    address currency,
+    string memory POnumber
+  * */
+  const invoice = {
+    fromWallet: walletAddress,
+    toWallet: clientWallet,
+    amount: 1,
+    address: "0xe1382c12f1da57b83a0ea368bc1e5a0b70b303ff",
+    POnumber: "666666",
+  }
+  console.log("invoice:", invoice)
+  const handleCreate = () => {
+    createInvoice()
+  }
+  const handleGetUnpaid = () => {
+    getUnpaidInvoice()
+  }
+  async function getUnpaidInvoice() {
+    // console.log("test create:", "0xe1382c12f1da57b83a0ea368bc1e5a0b70b303ff");
+    const result = await contract.methods.getUnpaidInvoice(invoice.fromWallet, 10).call();
+    console.log('Result of getUnpaid:', result);
+  }
+  async function createInvoice() {
+    // console.log("test create:", "0xe1382c12f1da57b83a0ea368bc1e5a0b70b303ff");
+    const result = await contract.methods.createInvoice(invoice.fromWallet,
+        invoice.toWallet, invoice.amount, invoice.address, invoice.POnumber).call();
+    console.log('Result of createInvoice:', result);
+  }
+  // 0xe1382c12f1da57b83a0ea368bc1e5a0b70b303ff
   return (
     <div className="App">
       <h1>Generate Invoice</h1>
@@ -67,6 +99,23 @@ const GenerateInvoicing = () => {
           Generate
         </button>
       </form>
+
+      <div>
+        <button
+            onClick={(e) => {
+              handleCreate()
+            }}
+        >
+          Test create
+        </button>
+        <button
+            onClick={(e) => {
+              handleGetUnpaid()
+            }}
+        >
+          Get Unpaid
+        </button>
+      </div>
 
       <h1>Wallet Invoices Record</h1>
       <table style={{ border: "1px solid black", width: "100%" }}>
