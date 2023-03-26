@@ -69,9 +69,9 @@ const GenerateInvoicing = ({ state, dispatch }) => {
     console.log('Result of getUnpaid:', result);
   }
   async function handleGetInfo () {
-    // console.log('xxx3', contract.methods.getInvoiceByID(1))
     const result = await contract.methods.getInvoiceByID(1).call();
     console.log('Result of info:', result);
+    console.log('passing address:', result[1], result[2]);
   }
   async function getPaidInvoice() {
 

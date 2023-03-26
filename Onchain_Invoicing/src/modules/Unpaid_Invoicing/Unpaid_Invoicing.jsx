@@ -1,13 +1,20 @@
 import { useState } from "react";
 import { mockUnpaidData } from "./mockUpaidInvoicing";
+import {useInvoiceContext} from "../../context";
 
 const UnpaidInvoicing = () => {
   const [payInvoice, setPayInvoice] = useState(mockUnpaidData);
+  const {
+    web,
+    walletAddress,
 
+  } = useInvoiceContext();
   const handlePay = (invoiceId) => {
+    ethPay("0xBa94cA55Bb24617D56EE67D659083A577339BC01", 1);
     const updatedInvoice = payInvoice.map((invoice) =>
       invoice.invoiceId === invoiceId ? { ...invoice, paid: true } : invoice
     );
+
     setPayInvoice(updatedInvoice);
     alert("You have Paid");
   };
@@ -20,7 +27,36 @@ const UnpaidInvoicing = () => {
     alert("You have Declined");
   };
 
-  return (
+  async function ethPay(recipientAddress, amountInEther) {
+
+    if (!web || !walletAddress) {
+      console.error('Missing web3 or account');
+      return;
+    }
+
+    try {
+      //
+      const gasPrice = await web.eth.getGasPrice();
+      const gasEstimate = await web.eth.estimateGas({ from: walletAddress, to: recipientAddress, value: amountInEther });
+      // const amountInWei = web.utils.toWei(String(amountInEther), 'ether');
+      const transactionParameters = {
+        from: walletAddress,
+        to: recipientAddress,
+        value: String(amountInEther),
+        gasPrice: gasPrice,
+        gas: String(gasEstimate),
+      };
+      console.log(transactionParameters)
+      const result = await window.ethereum.request({
+        method: 'eth_sendTransaction',
+        params: [transactionParameters],
+      });
+      await console.log(result)
+    } catch (error) {
+      console.error('Error sending transaction ', error);
+    }
+  }
+      return (
     <div>
       <h1>Unpaid_Invoicing</h1>
       <table style={{ border: "1px solid black", width: "100%" }}>
