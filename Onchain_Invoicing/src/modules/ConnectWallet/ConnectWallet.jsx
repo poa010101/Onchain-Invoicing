@@ -7,7 +7,7 @@ import "./ConnectWallet.css";
 import contractAbi from "./abi.json";
 
 
-const CONTRACT_ADDRESS = '0xfbb31372427B88e1B044fb96C00256cDCF7CC5B2';
+const CONTRACT_ADDRESS = '0x6b01a1571f17cCdcb92fb250FE7aC1daf6A47E14';
 
 const Login = () => {
   const {

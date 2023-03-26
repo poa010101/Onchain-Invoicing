@@ -64,14 +64,8 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "fromWallet",
-        "type": "address"
-      }
-    ],
-    "name": "getGeneratedInvoice",
+    "inputs": [],
+    "name": "getAllInvoice",
     "outputs": [
       {
         "components": [
@@ -216,103 +210,14 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "getLargestInvoiceID",
-    "outputs": [
+    "inputs": [
       {
         "internalType": "uint256",
-        "name": "",
+        "name": "pageNumber",
         "type": "uint256"
       }
     ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "fromWallet",
-        "type": "address"
-      }
-    ],
-    "name": "getPaidInvoice",
-    "outputs": [
-      {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "invoiceID",
-            "type": "uint256"
-          },
-          {
-            "internalType": "address",
-            "name": "fromWallet",
-            "type": "address"
-          },
-          {
-            "internalType": "address",
-            "name": "toWallet",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "generatedTime",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "paidTime",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "amount",
-            "type": "uint256"
-          },
-          {
-            "internalType": "address",
-            "name": "currency",
-            "type": "address"
-          },
-          {
-            "internalType": "string",
-            "name": "POnumber",
-            "type": "string"
-          },
-          {
-            "internalType": "bool",
-            "name": "paid",
-            "type": "bool"
-          },
-          {
-            "internalType": "bool",
-            "name": "active",
-            "type": "bool"
-          },
-          {
-            "internalType": "string",
-            "name": "transactionID",
-            "type": "string"
-          }
-        ],
-        "internalType": "struct InvoiceContract.Invoice[]",
-        "name": "",
-        "type": "tuple[]"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "toWallet",
-        "type": "address"
-      }
-    ],
-    "name": "getUnpaidInvoice",
+    "name": "getInvoicebyPage",
     "outputs": [
       {
         "components": [
@@ -382,7 +287,7 @@
   },
   {
     "inputs": [],
-    "name": "invoiceID",
+    "name": "getLargestInvoiceID",
     "outputs": [
       {
         "internalType": "uint256",
@@ -457,6 +362,19 @@
         "internalType": "string",
         "name": "transactionID",
         "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "largestInvoiceID",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",

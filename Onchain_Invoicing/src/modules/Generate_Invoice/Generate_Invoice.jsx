@@ -61,24 +61,20 @@ const GenerateInvoicing = ({ state, dispatch }) => {
     createInvoice(gasPrice, gasEstimate);
   }
   async function handleGetUnpaid (){
-    const result = await contract.methods.getUnpaidInvoice(walletAddress).call();
+    // const result = await contract.methods.getUnpaidInvoice(walletAddress).call();
+    const result = await contract.methods.getAllInvoice().call();
     console.log('Result of createInvoice:', result);
   }
   async function handleGetPaid () {
-    const result = await contract.methods.getPaidInvoice(walletAddress).call();
-    console.log('Result of getUnpaid:', result);
+    // const result = await contract.methods.getPaidInvoice(walletAddress).call();
+    // console.log('Result of getUnpaid:', result);
   }
   async function handleGetInfo () {
     const result = await contract.methods.getInvoiceByID(1).call();
     console.log('Result of info:', result);
     console.log('passing address:', result[1], result[2]);
   }
-  async function getPaidInvoice() {
 
-  }
-  async function getUnpaidInvoice() {
-
-  }
   async function createInvoiceTest() {
     const result = await contract.methods.createInvoice(walletAddress,
         clientWallet, amount, token_address, poNumber).call();
