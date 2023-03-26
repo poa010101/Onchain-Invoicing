@@ -1,6 +1,7 @@
 import { useReducer, useState } from "react";
 import { useInvoiceContext } from "../../context";
 import walletReducer from "../../Reducer/WalletReducer";
+import sendEmail from "../../../server/Email/EmailSender";
 
 const GenerateInvoicing = () => {
   const date = new Date().toLocaleString();
@@ -56,6 +57,7 @@ const GenerateInvoicing = () => {
               },
             });
             setGeneratedInvoice(true);
+            sendEmail();
           }}
         >
           Generate
