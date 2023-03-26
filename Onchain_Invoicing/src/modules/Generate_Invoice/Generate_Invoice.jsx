@@ -29,10 +29,81 @@ const GenerateInvoicing = ({ state, dispatch }) => {
   const paidInvoicingString = sessionStorage.getItem("paid_invoicing");
   const paidInvoicing = JSON.parse(paidInvoicingString);
   // console.log("xxxx", state);
-  console.log("web:", web);
+  // console.log("web:", web);
   console.log("contract:", contract);
-  console.log(state.invoices, paidInvoicing);
 
+  /*
+  * address fromWallet,
+    address toWallet,
+    uint256 amount,
+    address currency,
+    string memory POnumber
+  * */
+  // const invoice = {
+  //   fromWallet: walletAddress,
+  //   toWallet: clientWallet,
+  //   amount: 1,
+  //   address: "0xe1382c12f1da57b83a0ea368bc1e5a0b70b303ff",
+  //   POnumber: "666666",
+  // }
+  const token_address = "0xe1382c12f1da57b83a0ea368bc1e5a0b70b303ff";
+  // console.log("invoice:", invoice)
+  const handleCreateTest = () => {
+    createInvoiceTest()
+  }
+  async function handleCreate() {
+    const gasPrice = await web.eth.getGasPrice();
+    const gasEstimate = await contract.methods.createInvoice(walletAddress,
+        clientWallet, amount, token_address, poNumber)
+        .estimateGas({ from: walletAddress });
+    await console.log("gasPrice, gasEstimate:", gasPrice, gasEstimate)
+    createInvoice(gasPrice, gasEstimate);
+  }
+  async function handleGetUnpaid (){
+    const gasPrice = await web.eth.getGasPrice();
+    const gasEstimate = await contract.methods.getUnpaidInvoice(walletAddress, 10)
+        .estimateGas({ from: walletAddress });
+    getUnpaidInvoice(gasPrice, gasEstimate)
+  }
+  const handleGetPaid = () => {
+    getPaidInvoice()
+  }
+  async function handleGetInfo () {
+    console.log('xxx3', contract.methods.getInvoiceByID(1))
+    const result = await contract.methods.getInvoiceByID(666).call();
+    console.log('Result of info:', result);
+  }
+  async function getPaidInvoice() {
+    const result = await contract.methods.getUnpaidInvoice(walletAddress, 10).call();
+    console.log('Result of getUnpaid:', result);
+  }
+  async function getUnpaidInvoice(gasPrice, gasEstimate) {
+    const result = await contract.methods.getUnpaidInvoice(walletAddress, 10).call();
+    console.log('Result of createInvoice:', result);
+  }
+  async function createInvoiceTest() {
+    const result = await contract.methods.createInvoice(walletAddress,
+        clientWallet, amount, token_address, poNumber).call();
+    console.log('Result of createInvoiceTest:', result);
+  }
+  async function createInvoice(gasPrice, gasEstimate) {
+    const result = await contract.methods.createInvoice(walletAddress,
+        clientWallet, amount, token_address, poNumber)
+        .send({ from: walletAddress, gasPrice, gas: gasEstimate })
+        .on('transactionHash', (hash) => {
+          console.log('Transaction hash:', hash);
+        })
+        .on('receipt', (receipt) => {
+          console.log('Transaction receipt:', receipt);
+        })
+        .on('error', (error) => {
+          console.error('Transaction error:', error);
+        });
+    console.log('Result of createInvoice:', result);
+  }
+
+
+  // 0xe1382c12f1da57b83a0ea368bc1e5a0b70b303ff
   return (
     <div className="App">
       <nav>
@@ -80,6 +151,44 @@ const GenerateInvoicing = ({ state, dispatch }) => {
           Generate
         </button>
       </form>
+
+      <div>
+        <button
+            onClick={(e) => {
+              handleCreateTest()
+            }}
+        >
+          Test create
+        </button>
+        <button
+            onClick={(e) => {
+              handleCreate()
+            }}
+        >
+          Create Invoice
+        </button>
+        <button
+            onClick={(e) => {
+              handleGetUnpaid()
+            }}
+        >
+          Get Unpaid
+        </button>
+        <button
+            onClick={(e) => {
+              handleGetPaid()
+            }}
+        >
+          Get Paid
+        </button>
+        <button
+            onClick={(e) => {
+              handleGetInfo()
+            }}
+        >
+          Get Info
+        </button>
+      </div>
 
       <h1>Wallet Invoices Record</h1>
       <table style={{ border: "1px solid black", width: "100%" }}>
