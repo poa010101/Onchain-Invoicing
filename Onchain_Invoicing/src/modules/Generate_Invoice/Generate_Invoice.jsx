@@ -3,12 +3,14 @@ import { useInvoiceContext } from "../../context";
 import walletReducer from "../../Reducer/WalletReducer";
 
 const GenerateInvoicing = () => {
+
   const date = new Date().toLocaleString();
   const [poNumber, setPoNumber] = useState("");
   const [amount, setAmount] = useState("");
   const [clientWallet, setClientWallet] = useState("");
-
   const { setGeneratedInvoice } = useInvoiceContext();
+  const { wallet, walletAddress, setWallet, setWalletAddress, contract, setContract, web, setWeb } =
+      useInvoiceContext();
 
   const [state, dispatch] = useReducer(walletReducer, {
     invoices: [
@@ -23,6 +25,10 @@ const GenerateInvoicing = () => {
       },
     ],
   });
+
+  // console.log("xxxx", state);
+  console.log("web:", web);
+  console.log("contract:", contract);
 
   return (
     <div className="App">
