@@ -7,9 +7,13 @@ const InvoiceContext = createContext({
   setWallet: () => undefined,
   walletAddress: "",
   setWalletAddress: () => undefined,
+  contract: {},
+  setContract: () => undefined,
+  web: {},
+  setWeb: () => undefined,
   generatedInvoice: false,
   setGeneratedInvoice: () => undefined,
-  selectedNetwork: [],
+  selectedNetwork: "",
   setSelectedNetwork: () => undefined,
   selectedCurrency: "",
   setSelectedCurrency: () => undefined,
@@ -18,6 +22,8 @@ const InvoiceContext = createContext({
 const InvoiceProvider = ({ children }) => {
   const [wallet, setWallet] = useState(false);
   const [walletAddress, setWalletAddress] = useState("");
+  const [contract, setContract] = useState({});
+  const [web, setWeb] = useState({});
   const [generatedInvoice, setGeneratedInvoice] = useState(false);
   const [selectedNetwork, setSelectedNetwork] = useState(mockNetworkList[0]);
   const [selectedCurrency, setSelectedCurrency] = useState("USD");
@@ -27,6 +33,10 @@ const InvoiceProvider = ({ children }) => {
     setWallet,
     walletAddress,
     setWalletAddress,
+    contract,
+    setContract,
+    web,
+    setWeb,
     generatedInvoice,
     setGeneratedInvoice,
     selectedNetwork,

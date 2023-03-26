@@ -8,8 +8,18 @@ const GenerateInvoicing = ({ state, dispatch }) => {
   const [amount, setAmount] = useState("");
   const [clientWallet, setClientWallet] = useState("");
 
-  const { selectedNetwork, walletAddress, selectedCurrency } =
-    useInvoiceContext();
+  const {
+    wallet,
+    setWallet,
+    setWalletAddress,
+    contract,
+    setContract,
+    web,
+    setWeb,
+    selectedNetwork,
+    walletAddress,
+    selectedCurrency,
+  } = useInvoiceContext();
 
   useEffect(() => {
     const unpaidInvoice = JSON.stringify(state.invoices);
@@ -18,6 +28,9 @@ const GenerateInvoicing = ({ state, dispatch }) => {
 
   const paidInvoicingString = sessionStorage.getItem("paid_invoicing");
   const paidInvoicing = JSON.parse(paidInvoicingString);
+  // console.log("xxxx", state);
+  console.log("web:", web);
+  console.log("contract:", contract);
 
   return (
     <div className="App">
