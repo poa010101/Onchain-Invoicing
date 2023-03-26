@@ -1,16 +1,19 @@
 import { useState, useEffect } from "react";
-import { useInvoiceContext } from "../../context";
+import { mockNetworkList, useInvoiceContext } from "../../context";
 import { useNavigate } from "react-router-dom";
 
 import Web3 from "web3";
 import "./ConnectWallet.css";
 
-const mockNetworkList = ["Network", "OKX", "ETC", "MATIC"];
-
 const Login = () => {
-  const { wallet, walletAddress, setWallet, setWalletAddress } =
-    useInvoiceContext();
-  const [selectedNetwork, setSelectedNetwork] = useState(mockNetworkList[0]);
+  const {
+    wallet,
+    walletAddress,
+    selectedNetwork,
+    setWallet,
+    setWalletAddress,
+    setSelectedNetwork,
+  } = useInvoiceContext();
 
   const navigateTo = useNavigate();
 
@@ -74,7 +77,7 @@ const Login = () => {
         ))}
       </select>
       <button className="connectWallet_button" onClick={handleWalletButton}>
-        Connect Wallet
+        {wallet ? walletAddress : "Connect Wallet"}
       </button>
     </div>
   );
