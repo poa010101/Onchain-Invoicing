@@ -23,7 +23,9 @@ const Login = () => {
         alert("Please install MetaMask or another Web3 provider.");
         return;
       }
-
+      const web3 = new Web3(window.ethereum);
+      const networkId = await web3.eth.net.getId();
+      setWeb(web3);
       const accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
@@ -31,23 +33,24 @@ const Login = () => {
 
       if (accounts[0].length > 0) {
         console.log("xxx");
-        setWallet(true);
-        setWalletAddress(accounts[0]);
+        await setWalletAddress(accounts[0]);
+        await initializeWeb3(accounts[0]);
+        await setWallet(true);
       }
-      await initializeWeb3(accounts[0]);
+
     } catch (error) {
       console.error("Error connecting to wallet:", error);
     }
   }
   async function initializeWeb3(account) {
-    const web3 = new Web3(window.ethereum);
-    const networkId = await web3.eth.net.getId();
-    const contractInstance = new web3.eth.Contract(contractAbi, CONTRACT_ADDRESS);
+
+
+    const contractInstance = new web.eth.Contract(contractAbi, CONTRACT_ADDRESS);
     // console.log('web3:', web3);
     // console.log('Network ID:', networkId);
     // console.log('User account:', account);
     // console.log('Contract instance:', contractInstance);
-    setWeb(web3);
+
     setContract(contractInstance);
     // console.log('Contract instance:', contract);
   }

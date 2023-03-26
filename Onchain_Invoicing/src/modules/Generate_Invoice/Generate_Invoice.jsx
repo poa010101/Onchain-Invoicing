@@ -36,29 +36,71 @@ const GenerateInvoicing = () => {
     address currency,
     string memory POnumber
   * */
-  const invoice = {
-    fromWallet: walletAddress,
-    toWallet: clientWallet,
-    amount: 1,
-    address: "0xe1382c12f1da57b83a0ea368bc1e5a0b70b303ff",
-    POnumber: "666666",
+  // const invoice = {
+  //   fromWallet: walletAddress,
+  //   toWallet: clientWallet,
+  //   amount: 1,
+  //   address: "0xe1382c12f1da57b83a0ea368bc1e5a0b70b303ff",
+  //   POnumber: "666666",
+  // }
+  const token_address = "0xe1382c12f1da57b83a0ea368bc1e5a0b70b303ff";
+  // console.log("invoice:", invoice)
+  const handleCreateTest = () => {
+    createInvoiceTest()
   }
-  console.log("invoice:", invoice)
-  const handleCreate = () => {
-    createInvoice()
+  async function handleCreate() {
+    const gasPrice = await web.eth.getGasPrice();
+    const gasEstimate = await contract.methods.createInvoice(walletAddress,
+        clientWallet, amount, token_address, poNumber)
+        .estimateGas({ from: walletAddress });
+    await console.log("gasPrice, gasEstimate:", gasPrice, gasEstimate)
+    createInvoice(gasPrice, gasEstimate);
   }
-  const handleGetUnpaid = () => {
-    getUnpaidInvoice()
+  async function handleGetUnpaid (){
+    const gasPrice = await web.eth.getGasPrice();
+    const gasEstimate = await contract.methods.getUnpaidInvoice(walletAddress, 10)
+        .estimateGas({ from: walletAddress });
+    getUnpaidInvoice(gasPrice, gasEstimate)
   }
-  async function getUnpaidInvoice() {
-    // console.log("test create:", "0xe1382c12f1da57b83a0ea368bc1e5a0b70b303ff");
-    const result = await contract.methods.getUnpaidInvoice(invoice.fromWallet, 10).call();
+  const handleGetPaid = () => {
+    getPaidInvoice()
+  }
+  async function getPaidInvoice() {
+    const result = await contract.methods.getUnpaidInvoice(walletAddress, 10).call();
     console.log('Result of getUnpaid:', result);
   }
-  async function createInvoice() {
-    // console.log("test create:", "0xe1382c12f1da57b83a0ea368bc1e5a0b70b303ff");
-    const result = await contract.methods.createInvoice(invoice.fromWallet,
-        invoice.toWallet, invoice.amount, invoice.address, invoice.POnumber).call();
+  async function getUnpaidInvoice(gasPrice, gasEstimate) {
+    const result = await contract.methods.getUnpaidInvoice(walletAddress, 10)
+        .send({ from: walletAddress, gasPrice, gas: gasEstimate })
+        .on('transactionHash', (hash) => {
+          console.log('Transaction hash:', hash);
+        })
+        .on('receipt', (receipt) => {
+          console.log('Transaction receipt:', receipt);
+        })
+        .on('error', (error) => {
+          console.error('Transaction error:', error);
+        });
+    console.log('Result of createInvoice:', result);
+  }
+  async function createInvoiceTest() {
+    const result = await contract.methods.createInvoice(walletAddress,
+        clientWallet, amount, token_address, poNumber).call();
+    console.log('Result of createInvoiceTest:', result);
+  }
+  async function createInvoice(gasPrice, gasEstimate) {
+    const result = await contract.methods.createInvoice(walletAddress,
+        clientWallet, amount, token_address, poNumber)
+        .send({ from: walletAddress, gasPrice, gas: gasEstimate })
+        .on('transactionHash', (hash) => {
+          console.log('Transaction hash:', hash);
+        })
+        .on('receipt', (receipt) => {
+          console.log('Transaction receipt:', receipt);
+        })
+        .on('error', (error) => {
+          console.error('Transaction error:', error);
+        });
     console.log('Result of createInvoice:', result);
   }
   // 0xe1382c12f1da57b83a0ea368bc1e5a0b70b303ff
@@ -103,10 +145,17 @@ const GenerateInvoicing = () => {
       <div>
         <button
             onClick={(e) => {
-              handleCreate()
+              handleCreateTest()
             }}
         >
           Test create
+        </button>
+        <button
+            onClick={(e) => {
+              handleCreate()
+            }}
+        >
+          Create Invoice
         </button>
         <button
             onClick={(e) => {
@@ -114,6 +163,13 @@ const GenerateInvoicing = () => {
             }}
         >
           Get Unpaid
+        </button>
+        <button
+            onClick={(e) => {
+              handleGetPaid()
+            }}
+        >
+          Get Paid
         </button>
       </div>
 
