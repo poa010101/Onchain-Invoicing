@@ -5,17 +5,22 @@ const InvoiceContext = createContext({
   setWallet: () => undefined,
   walletAddress: "",
   setWalletAddress: () => undefined,
+  generatedInvoice: false,
+  setGeneratedInvoice: () => undefined,
 });
 
 const InvoiceProvider = ({ children }) => {
   const [wallet, setWallet] = useState(false);
   const [walletAddress, setWalletAddress] = useState("");
+  const [generatedInvoice, setGeneratedInvoice] = useState(false);
 
   const value = {
     wallet,
     setWallet,
     walletAddress,
     setWalletAddress,
+    generatedInvoice,
+    setGeneratedInvoice,
   };
 
   return (

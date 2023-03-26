@@ -5,7 +5,7 @@ import Login from "./modules/ConnectWallet/ConnectWallet";
 const App = () => {
   return (
     <div>
-      <h1>Hello World</h1>
+      <h1>Onchain Invoicing</h1>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />
