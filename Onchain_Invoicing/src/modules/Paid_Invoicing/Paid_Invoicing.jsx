@@ -1,9 +1,20 @@
+import {useInvoiceContext} from "../../context";
+
 const PaidInvoicing = () => {
   const paidInvoicingString = sessionStorage.getItem("paid_invoicing");
-  const paidInvoicing = JSON.parse(paidInvoicingString);
+  // const paidInvoicing = JSON.parse(paidInvoicingString);
+  const {
+    web,
+    walletAddress,
+    invoices,
+    setInvoices,
+  } = useInvoiceContext();
+  const paidInvoicing = invoices.filter(
+      (invoice) => invoice.paid === true
+  );
   return (
     <div>
-      <h1>Unpaid_Invoicing</h1>
+      <h1>Paid_Invoicing</h1>
       <table style={{ border: "1px solid black", width: "100%" }}>
         <thead>
           <tr>

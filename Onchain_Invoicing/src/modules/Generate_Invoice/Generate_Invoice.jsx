@@ -16,6 +16,8 @@ const GenerateInvoicing = ({ state, dispatch }) => {
     setContract,
     web,
     setWeb,
+      network,
+      setNetwork,
     selectedNetwork,
     walletAddress,
     selectedCurrency,
@@ -127,44 +129,44 @@ const GenerateInvoicing = ({ state, dispatch }) => {
           <label>Client Wallet: </label>
           <input onChange={(e) => setClientWallet(e.target.value)} />
         </div>
-        <button
-          style={{ marginTop: 10, marginBottom: 30 }}
-          onClick={(e) => {
-            e.preventDefault();
-            dispatch({
-              type: "GENERATE_INVOICE",
-              payload: {
-                invoiceId: Math.floor(Math.random() * 1000000000000000),
-                date: date,
-                poNumber: poNumber,
-                amount: amount,
-                clientWallet: clientWallet,
-                paid: false,
-                active: true,
-              },
-            });
-          }}
-        >
-          Generate
-        </button>
+        {/*<button*/}
+          {/*style={{ marginTop: 10, marginBottom: 30 }}*/}
+          {/*onClick={(e) => {*/}
+            {/*e.preventDefault();*/}
+            {/*dispatch({*/}
+              {/*type: "GENERATE_INVOICE",*/}
+              {/*payload: {*/}
+                {/*invoiceId: Math.floor(Math.random() * 1000000000000000),*/}
+                {/*date: date,*/}
+                {/*poNumber: poNumber,*/}
+                {/*amount: amount,*/}
+                {/*clientWallet: clientWallet,*/}
+                {/*paid: false,*/}
+                {/*active: true,*/}
+              {/*},*/}
+            {/*});*/}
+          {/*}}*/}
+        {/*>*/}
+          {/*Generate*/}
+        {/*</button>*/}
       </form>
 
       <div>
-        <button
-            onClick={(e) => {
-              handleCreateTest()
-            }}
-        >
-          Test create
-        </button>
-        <button
+        {/*<button*/}
+            {/*onClick={(e) => {*/}
+              {/*handleCreateTest()*/}
+            {/*}}*/}
+        {/*>*/}
+          {/*Test create*/}
+        {/*</button>*/}
+        <button style={{gap:4}}
             onClick={(e) => {
               handleCreate()
             }}
         >
           Create Invoice
         </button>
-        <button
+        <button style={{gap:4}}
             onClick={(e) => {
               handleGetUnpaid()
             }}
@@ -178,13 +180,13 @@ const GenerateInvoicing = ({ state, dispatch }) => {
         {/*>*/}
           {/*Get Paid*/}
         {/*</button>*/}
-        <button
-            onClick={(e) => {
-              handleGetInfo()
-            }}
-        >
-          Get Info
-        </button>
+        {/*<button*/}
+            {/*onClick={(e) => {*/}
+              {/*handleGetInfo()*/}
+            {/*}}*/}
+        {/*>*/}
+          {/*Get Info*/}
+        {/*</button>*/}
       </div>
 
       <h1>Wallet Invoices Record</h1>
@@ -194,9 +196,9 @@ const GenerateInvoicing = ({ state, dispatch }) => {
             <th style={{ border: "1px solid black", gap: 30, width: "14%" }}>
               Invoice Number
             </th>
-            {/*<th style={{ border: "1px solid black", gap: 30, width: "14%" }}>*/}
-              {/*Date*/}
-            {/*</th>*/}
+            <th style={{ border: "1px solid black", gap: 30, width: "14%" }}>
+              Date
+            </th>
             <th style={{ border: "1px solid black", gap: 30, width: "14%" }}>
               PO Number
             </th>
@@ -237,7 +239,7 @@ const GenerateInvoicing = ({ state, dispatch }) => {
                   <td
                     style={{ border: "1px solid black", gap: 30, width: "14%" }}
                   >
-                    {invoice.amount} {selectedCurrency}
+                    {invoice.amount} {selectedNetwork}
                   </td>
                   <td
                     style={{ border: "1px solid black", gap: 30, width: "14%" }}
@@ -281,7 +283,7 @@ const GenerateInvoicing = ({ state, dispatch }) => {
                   <td
                     style={{ border: "1px solid black", gap: 30, width: "14%" }}
                   >
-                    {invoice.amount} {selectedCurrency}
+                    {invoice.amount} {selectedNetwork}
                   </td>
                   <td
                     style={{ border: "1px solid black", gap: 30, width: "14%" }}
