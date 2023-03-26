@@ -5,6 +5,9 @@ import walletReducer from "../../Reducer/WalletReducer";
 const GenerateInvoicing = () => {
   const [date, setDate] = useState("");
   const [item, setItem] = useState("");
+  const { wallet, walletAddress, setWallet, setWalletAddress, contract, setContract, web, setWeb } =
+      useInvoiceContext();
+
   // const [done, setDone] = useState(true)
   const [state, dispatch] = useReducer(walletReducer, {
     items: [
@@ -17,8 +20,9 @@ const GenerateInvoicing = () => {
     ],
   });
 
-  console.log("xxxx", state);
-
+  // console.log("xxxx", state);
+  console.log("web:", web);
+  console.log("contract:", contract);
   return (
     <div className="App">
       <h1>Generate Invoice</h1>

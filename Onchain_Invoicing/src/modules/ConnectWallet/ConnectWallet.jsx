@@ -4,11 +4,14 @@ import { useNavigate } from "react-router-dom";
 
 import Web3 from "web3";
 import "./ConnectWallet.css";
+import contractAbi from './abi.json';
+
+const CONTRACT_ADDRESS = '0xcabc2A2Da93C5B6B94bdB6930dAE3Ec9BC962d5D';
 
 const mockNetworkList = ["Network", "OKX", "ETC", "MATIC"];
 
 const Login = () => {
-  const { wallet, walletAddress, setWallet, setWalletAddress } =
+  const { wallet, walletAddress, setWallet, setWalletAddress, contract, setContract, web, setWeb } =
     useInvoiceContext();
   const [selectedNetwork, setSelectedNetwork] = useState(mockNetworkList[0]);
 
@@ -39,9 +42,14 @@ const Login = () => {
   async function initializeWeb3(account) {
     const web3 = new Web3(window.ethereum);
     const networkId = await web3.eth.net.getId();
-
-    console.log("Network ID:", networkId);
-    console.log("User account:", account);
+    const contractInstance = new web3.eth.Contract(contractAbi, CONTRACT_ADDRESS);
+    // console.log('web3:', web3);
+    // console.log('Network ID:', networkId);
+    // console.log('User account:', account);
+    // console.log('Contract instance:', contractInstance);
+    setWeb(web3);
+    setContract(contractInstance);
+    // console.log('Contract instance:', contract);
   }
 
   const handleWalletButton = () => {
