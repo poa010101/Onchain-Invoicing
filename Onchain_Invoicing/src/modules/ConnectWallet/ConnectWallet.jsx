@@ -1,19 +1,26 @@
 import { useState, useEffect } from "react";
-import { useInvoiceContext } from "../../context";
+import { mockNetworkList, useInvoiceContext } from "../../context";
 import { useNavigate } from "react-router-dom";
 
 import Web3 from "web3";
 import "./ConnectWallet.css";
-import contractAbi from './abi.json';
+import contractAbi from "./abi.json";
+
 
 const CONTRACT_ADDRESS = '0x83997e3ad73746824a2133e2015873b6422327D1';
 
-const mockNetworkList = ["Network", "OKX", "ETC", "MATIC"];
-
 const Login = () => {
-  const { wallet, walletAddress, setWallet, setWalletAddress, contract, setContract, web, setWeb } =
-    useInvoiceContext();
-  const [selectedNetwork, setSelectedNetwork] = useState(mockNetworkList[0]);
+  const {
+    wallet,
+    walletAddress,
+    selectedNetwork,
+    setWallet,
+    setWalletAddress,
+    setSelectedNetwork,
+    contract, setContract,
+    web, setWeb 
+  } = useInvoiceContext();
+
   const navigateTo = useNavigate();
 
   async function connectWallet() {
@@ -45,8 +52,6 @@ const Login = () => {
     }
   }
   async function initializeWeb3(account) {
-
-
 
     // console.log('web3:', web3);
     // console.log('Network ID:', networkId);
@@ -85,7 +90,7 @@ const Login = () => {
         ))}
       </select>
       <button className="connectWallet_button" onClick={handleWalletButton}>
-        Connect Wallet
+        {wallet ? walletAddress : "Connect Wallet"}
       </button>
     </div>
   );
