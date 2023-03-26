@@ -18,9 +18,13 @@ const GenerateInvoicing = ({ state, dispatch }) => {
     setContract,
     web,
     setWeb,
+    network,
+    setNetwork,
     selectedNetwork,
     walletAddress,
     selectedCurrency,
+    invoices,
+    setInvoices,
   } = useInvoiceContext();
 
   useEffect(() => {
@@ -32,7 +36,7 @@ const GenerateInvoicing = ({ state, dispatch }) => {
   const paidInvoicing = JSON.parse(paidInvoicingString);
   // console.log("xxxx", state);
   // console.log("web:", web);
-  console.log("contract:", contract);
+  // console.log("contract:", contract);
 
   /*
   * address fromWallet,
@@ -55,6 +59,7 @@ const GenerateInvoicing = ({ state, dispatch }) => {
   };
   async function handleCreate() {
     const gasPrice = await web.eth.getGasPrice();
+    // console.log(walletAddress, clientWallet, token_address)
     const gasEstimate = await contract.methods
       .createInvoice(
         walletAddress,
@@ -68,32 +73,21 @@ const GenerateInvoicing = ({ state, dispatch }) => {
     createInvoice(gasPrice, gasEstimate);
   }
   async function handleGetUnpaid() {
-    const gasPrice = await web.eth.getGasPrice();
-    const gasEstimate = await contract.methods
-      .getUnpaidInvoice(walletAddress, 10)
-      .estimateGas({ from: walletAddress });
-    getUnpaidInvoice(gasPrice, gasEstimate);
+    // const result = await contract.methods.getUnpaidInvoice(walletAddress).call();
+    const result = await contract.methods.getAllInvoice().call();
+    await setInvoices(result);
+    await console.log("Result of createInvoice:", invoices);
   }
-  const handleGetPaid = () => {
-    getPaidInvoice();
-  };
+  async function handleGetPaid() {
+    // const result = await contract.methods.getPaidInvoice(walletAddress).call();
+    // console.log('Result of getUnpaid:', result);
+  }
   async function handleGetInfo() {
-    console.log("xxx3", contract.methods.getInvoiceByID(1));
-    const result = await contract.methods.getInvoiceByID(666).call();
+    const result = await contract.methods.getInvoiceByID(1).call();
     console.log("Result of info:", result);
+    console.log("passing address:", result[1], result[2]);
   }
-  async function getPaidInvoice() {
-    const result = await contract.methods
-      .getUnpaidInvoice(walletAddress, 10)
-      .call();
-    console.log("Result of getUnpaid:", result);
-  }
-  async function getUnpaidInvoice(gasPrice, gasEstimate) {
-    const result = await contract.methods
-      .getUnpaidInvoice(walletAddress, 10)
-      .call();
-    console.log("Result of createInvoice:", result);
-  }
+
   async function createInvoiceTest() {
     const result = await contract.methods
       .createInvoice(
@@ -196,38 +190,37 @@ const GenerateInvoicing = ({ state, dispatch }) => {
             />
           </div>
 
-          <button
-            style={{ marginTop: 30, marginBottom: 30 }}
-            onClick={(e) => {
-              e.preventDefault();
-              dispatch({
-                type: "GENERATE_INVOICE",
-                payload: {
-                  invoiceId: Math.floor(Math.random() * 1000000000000000),
-                  date: date,
-                  poNumber: poNumber,
-                  amount: amount,
-                  clientWallet: clientWallet,
-                  paid: false,
-                  active: true,
-                },
-              });
-            }}
-          >
-            Generate
-          </button>
+          {/*<button*/}
+          {/*style={{ marginTop: 10, marginBottom: 30 }}*/}
+          {/*onClick={(e) => {*/}
+          {/*e.preventDefault();*/}
+          {/*dispatch({*/}
+          {/*type: "GENERATE_INVOICE",*/}
+          {/*payload: {*/}
+          {/*invoiceId: Math.floor(Math.random() * 1000000000000000),*/}
+          {/*date: date,*/}
+          {/*poNumber: poNumber,*/}
+          {/*amount: amount,*/}
+          {/*clientWallet: clientWallet,*/}
+          {/*paid: false,*/}
+          {/*active: true,*/}
+          {/*},*/}
+          {/*});*/}
+          {/*}}*/}
+          {/*>*/}
+          {/*Generate*/}
+          {/*</button>*/}
         </form>
-      </div>
 
-      <div>
+        {/*<button*/}
+        {/*onClick={(e) => {*/}
+        {/*handleCreateTest()*/}
+        {/*}}*/}
+        {/*>*/}
+        {/*Test create*/}
+        {/*</button>*/}
         <button
-          onClick={(e) => {
-            handleCreateTest();
-          }}
-        >
-          Test create
-        </button>
-        <button
+          style={{ gap: 4 }}
           onClick={(e) => {
             handleCreate();
           }}
@@ -235,203 +228,145 @@ const GenerateInvoicing = ({ state, dispatch }) => {
           Create Invoice
         </button>
         <button
+          style={{ gap: 4 }}
           onClick={(e) => {
             handleGetUnpaid();
           }}
         >
-          Get Unpaid
+          Get All
         </button>
-        <button
-          onClick={(e) => {
-            handleGetPaid();
-          }}
-        >
-          Get Paid
-        </button>
-        <button
-          onClick={(e) => {
-            handleGetInfo();
-          }}
-        >
-          Get Info
-        </button>
+        {/*<button*/}
+        {/*onClick={(e) => {*/}
+        {/*handleGetPaid()*/}
+        {/*}}*/}
+        {/*>*/}
+        {/*Get Paid*/}
+        {/*</button>*/}
+        {/*<button*/}
+        {/*onClick={(e) => {*/}
+        {/*handleGetInfo()*/}
+        {/*}}*/}
+        {/*>*/}
+        {/*Get Info*/}
+        {/*</button>*/}
       </div>
-
-      <div className="table-container">
-        <h2>Wallet Invoice Records</h2>
-        <table style={{ border: "1px solid black", width: "100%" }}>
-          <thead>
-            <tr>
-              <th style={{ border: "1px solid black", gap: 30, width: "14%" }}>
-                Invoice Number
-              </th>
-              <th style={{ border: "1px solid black", gap: 30, width: "14%" }}>
-                Date
-              </th>
-              <th style={{ border: "1px solid black", gap: 30, width: "14%" }}>
-                PO Number
-              </th>
-              <th style={{ border: "1px solid black", gap: 30, width: "14%" }}>
-                Amount
-              </th>
-              <th style={{ border: "1px solid black", gap: 30, width: "14%" }}>
-                Client Wallet
-              </th>
-              <th style={{ border: "1px solid black", gap: 30, width: "14%" }}>
-                Paid
-              </th>
-              <th style={{ border: "1px solid black", gap: 30, width: "14%" }}>
-                Active
-              </th>
-            </tr>
-          </thead>
-          {!paidInvoicing ? (
-            <tbody>
-              {state.invoices.map((invoice, index) => {
-                return (
-                  <tr key={index}>
-                    <td
-                      style={{
-                        border: "1px solid black",
-                        gap: 30,
-                        width: "14%",
-                      }}
-                    >
-                      {invoice.invoiceId}
-                    </td>
-                    <td
-                      style={{
-                        border: "1px solid black",
-                        gap: 30,
-                        width: "14%",
-                      }}
-                    >
-                      {invoice.date}
-                    </td>
-                    <td
-                      style={{
-                        border: "1px solid black",
-                        gap: 30,
-                        width: "14%",
-                      }}
-                    >
-                      {invoice.poNumber}
-                    </td>
-                    <td
-                      style={{
-                        border: "1px solid black",
-                        gap: 30,
-                        width: "14%",
-                      }}
-                    >
-                      {invoice.amount} {selectedCurrency}
-                    </td>
-                    <td
-                      style={{
-                        border: "1px solid black",
-                        gap: 30,
-                        width: "14%",
-                      }}
-                    >
-                      {invoice.clientWallet}
-                    </td>
-                    <td
-                      style={{
-                        border: "1px solid black",
-                        gap: 30,
-                        width: "14%",
-                      }}
-                    >
-                      {invoice.paid ? "Paid" : "Unpaid"}
-                    </td>
-                    <td
-                      style={{
-                        border: "1px solid black",
-                        gap: 30,
-                        width: "14%",
-                      }}
-                    >
-                      {invoice.active ? "Active" : "Inactive"}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          ) : (
-            <tbody>
-              {paidInvoicing.map((invoice, index) => {
-                return (
-                  <tr key={index}>
-                    <td
-                      style={{
-                        border: "1px solid black",
-                        gap: 30,
-                        width: "14%",
-                      }}
-                    >
-                      {invoice.invoiceId}
-                    </td>
-                    <td
-                      style={{
-                        border: "1px solid black",
-                        gap: 30,
-                        width: "14%",
-                      }}
-                    >
-                      {invoice.date}
-                    </td>
-                    <td
-                      style={{
-                        border: "1px solid black",
-                        gap: 30,
-                        width: "14%",
-                      }}
-                    >
-                      {invoice.poNumber}
-                    </td>
-                    <td
-                      style={{
-                        border: "1px solid black",
-                        gap: 30,
-                        width: "14%",
-                      }}
-                    >
-                      {invoice.amount} {selectedCurrency}
-                    </td>
-                    <td
-                      style={{
-                        border: "1px solid black",
-                        gap: 30,
-                        width: "14%",
-                      }}
-                    >
-                      {invoice.clientWallet}
-                    </td>
-                    <td
-                      style={{
-                        border: "1px solid black",
-                        gap: 30,
-                        width: "14%",
-                      }}
-                    >
-                      {invoice.paid ? "Paid" : "Unpaid"}
-                    </td>
-                    <td
-                      style={{
-                        border: "1px solid black",
-                        gap: 30,
-                        width: "14%",
-                      }}
-                    >
-                      {invoice.active ? "Active" : "Inactive"}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          )}
-        </table>
-      </div>
+      <h2 className="table-container">Wallet Invoices Record</h2>
+      <table style={{ border: "1px solid black", width: "100%" }}>
+        <thead>
+          <tr>
+            <th style={{ border: "1px solid black", gap: 30, width: "14%" }}>
+              Invoice Number
+            </th>
+            <th style={{ border: "1px solid black", gap: 30, width: "14%" }}>
+              Date
+            </th>
+            <th style={{ border: "1px solid black", gap: 30, width: "14%" }}>
+              PO Number
+            </th>
+            <th style={{ border: "1px solid black", gap: 30, width: "14%" }}>
+              Amount
+            </th>
+            <th style={{ border: "1px solid black", gap: 30, width: "14%" }}>
+              Client Wallet
+            </th>
+            <th style={{ border: "1px solid black", gap: 30, width: "14%" }}>
+              Paid
+            </th>
+            <th style={{ border: "1px solid black", gap: 30, width: "14%" }}>
+              Active
+            </th>
+          </tr>
+        </thead>
+        {!paidInvoicing ? (
+          <tbody>
+            {invoices.map((invoice, index) => {
+              return (
+                <tr key={index}>
+                  <td
+                    style={{ border: "1px solid black", gap: 30, width: "14%" }}
+                  >
+                    {invoice[0]}
+                  </td>
+                  <td
+                    style={{ border: "1px solid black", gap: 30, width: "14%" }}
+                  >
+                    {Date(invoice[3] * 1000)}
+                  </td>
+                  <td
+                    style={{ border: "1px solid black", gap: 30, width: "14%" }}
+                  >
+                    {invoice[7]}
+                  </td>
+                  <td
+                    style={{ border: "1px solid black", gap: 30, width: "14%" }}
+                  >
+                    {invoice.amount} {selectedNetwork}
+                  </td>
+                  <td
+                    style={{ border: "1px solid black", gap: 30, width: "14%" }}
+                  >
+                    {invoice[2]}
+                  </td>
+                  <td
+                    style={{ border: "1px solid black", gap: 30, width: "14%" }}
+                  >
+                    {invoice.paid ? "Paid" : "Unpaid"}
+                  </td>
+                  <td
+                    style={{ border: "1px solid black", gap: 30, width: "14%" }}
+                  >
+                    {invoice.active ? "Active" : "Inactive"}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        ) : (
+          <tbody>
+            {paidInvoicing.map((invoice, index) => {
+              return (
+                <tr key={index}>
+                  <td
+                    style={{ border: "1px solid black", gap: 30, width: "14%" }}
+                  >
+                    {invoice[0]}
+                  </td>
+                  <td
+                    style={{ border: "1px solid black", gap: 30, width: "14%" }}
+                  >
+                    {Date(invoice[3] * 1000)}
+                  </td>
+                  <td
+                    style={{ border: "1px solid black", gap: 30, width: "14%" }}
+                  >
+                    {invoice[7]}
+                  </td>
+                  <td
+                    style={{ border: "1px solid black", gap: 30, width: "14%" }}
+                  >
+                    {invoice.amount} {selectedNetwork}
+                  </td>
+                  <td
+                    style={{ border: "1px solid black", gap: 30, width: "14%" }}
+                  >
+                    {invoice[2]}
+                  </td>
+                  <td
+                    style={{ border: "1px solid black", gap: 30, width: "14%" }}
+                  >
+                    {invoice.paid ? "Paid" : "Unpaid"}
+                  </td>
+                  <td
+                    style={{ border: "1px solid black", gap: 30, width: "14%" }}
+                  >
+                    {invoice.active ? "Active" : "Inactive"}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        )}
+      </table>
     </div>
   );
 };

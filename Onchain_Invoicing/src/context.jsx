@@ -1,6 +1,6 @@
 import { useState, createContext, useContext } from "react";
 
-const mockNetworkList = ["Network", "OKX", "ETC", "MATIC"];
+const mockNetworkList = ["OKX", "ETH", "USDT"];
 
 const InvoiceContext = createContext({
   wallet: false,
@@ -17,6 +17,8 @@ const InvoiceContext = createContext({
   setSelectedNetwork: () => undefined,
   selectedCurrency: "",
   setSelectedCurrency: () => undefined,
+  invoices:[],
+  setInvoices: () => undefined,
 });
 
 const InvoiceProvider = ({ children }) => {
@@ -26,7 +28,8 @@ const InvoiceProvider = ({ children }) => {
   const [web, setWeb] = useState({});
   const [generatedInvoice, setGeneratedInvoice] = useState(false);
   const [selectedNetwork, setSelectedNetwork] = useState(mockNetworkList[0]);
-  const [selectedCurrency, setSelectedCurrency] = useState("USD");
+  const [selectedCurrency, setSelectedCurrency] = useState("OKT");
+  const [invoices, setInvoices] = useState([]);
 
   const value = {
     wallet,
@@ -43,6 +46,8 @@ const InvoiceProvider = ({ children }) => {
     setSelectedNetwork,
     selectedCurrency,
     setSelectedCurrency,
+    invoices,
+    setInvoices,
   };
 
   return (

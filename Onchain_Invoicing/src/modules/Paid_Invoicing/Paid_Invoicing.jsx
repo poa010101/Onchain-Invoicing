@@ -1,15 +1,17 @@
 import "../Generate_Invoice/Generate_Invoice.css";
+import { useInvoiceContext } from "../../context";
 
 const PaidInvoicing = () => {
   const unpaidInvoicingString = sessionStorage.getItem("unpaid_invoicing");
   const unpaidInvoicing = JSON.parse(unpaidInvoicingString);
 
   const paidInvoicingString = sessionStorage.getItem("paid_invoicing");
-  const paidInvoicing = JSON.parse(paidInvoicingString);
-
+  // const paidInvoicing = JSON.parse(paidInvoicingString);
+  const { web, walletAddress, invoices, setInvoices } = useInvoiceContext();
+  const paidInvoicing = invoices.filter((invoice) => invoice.paid === true);
   return (
-    <div className="table-container">
-      <h2>Paid Invoicing</h2>
+    <div>
+      <h1>Paid_Invoicing</h1>
       <table style={{ border: "1px solid black", width: "100%" }}>
         <thead>
           <tr>

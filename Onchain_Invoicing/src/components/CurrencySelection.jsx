@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useInvoiceContext } from "../context";
 
-const currencies = ["USD", "EUR", "GBP", "JPY", "AUD"];
+const currencies = ["OKT","BTC", "ETH", "USDT"];
 
 const CurrencySelection = () => {
   const { selectedCurrency, setSelectedCurrency } = useInvoiceContext();
