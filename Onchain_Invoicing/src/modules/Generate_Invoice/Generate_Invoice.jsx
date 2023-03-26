@@ -19,6 +19,8 @@ const GenerateInvoicing = ({ state, dispatch }) => {
     selectedNetwork,
     walletAddress,
     selectedCurrency,
+    invoices,
+    setInvoices,
   } = useInvoiceContext();
 
   useEffect(() => {
@@ -30,7 +32,7 @@ const GenerateInvoicing = ({ state, dispatch }) => {
   const paidInvoicing = JSON.parse(paidInvoicingString);
   // console.log("xxxx", state);
   // console.log("web:", web);
-  console.log("contract:", contract);
+  // console.log("contract:", contract);
 
   /*
   * address fromWallet,
@@ -63,7 +65,8 @@ const GenerateInvoicing = ({ state, dispatch }) => {
   async function handleGetUnpaid (){
     // const result = await contract.methods.getUnpaidInvoice(walletAddress).call();
     const result = await contract.methods.getAllInvoice().call();
-    console.log('Result of createInvoice:', result);
+    await setInvoices(result);
+    await console.log('Result of createInvoice:', invoices);
   }
   async function handleGetPaid () {
     // const result = await contract.methods.getPaidInvoice(walletAddress).call();
@@ -166,15 +169,15 @@ const GenerateInvoicing = ({ state, dispatch }) => {
               handleGetUnpaid()
             }}
         >
-          Get Unpaid
+          Get All
         </button>
-        <button
-            onClick={(e) => {
-              handleGetPaid()
-            }}
-        >
-          Get Paid
-        </button>
+        {/*<button*/}
+            {/*onClick={(e) => {*/}
+              {/*handleGetPaid()*/}
+            {/*}}*/}
+        {/*>*/}
+          {/*Get Paid*/}
+        {/*</button>*/}
         <button
             onClick={(e) => {
               handleGetInfo()
@@ -191,9 +194,9 @@ const GenerateInvoicing = ({ state, dispatch }) => {
             <th style={{ border: "1px solid black", gap: 30, width: "14%" }}>
               Invoice Number
             </th>
-            <th style={{ border: "1px solid black", gap: 30, width: "14%" }}>
-              Date
-            </th>
+            {/*<th style={{ border: "1px solid black", gap: 30, width: "14%" }}>*/}
+              {/*Date*/}
+            {/*</th>*/}
             <th style={{ border: "1px solid black", gap: 30, width: "14%" }}>
               PO Number
             </th>
@@ -213,23 +216,23 @@ const GenerateInvoicing = ({ state, dispatch }) => {
         </thead>
         {!paidInvoicing ? (
           <tbody>
-            {state.invoices.map((invoice, index) => {
+            {invoices.map((invoice, index) => {
               return (
                 <tr key={index}>
                   <td
                     style={{ border: "1px solid black", gap: 30, width: "14%" }}
                   >
-                    {invoice.invoiceId}
+                    {invoice[0]}
                   </td>
+                  {/*<td*/}
+                    {/*style={{ border: "1px solid black", gap: 30, width: "14%" }}*/}
+                  {/*>*/}
+                    {/*{invoice.date}*/}
+                  {/*</td>*/}
                   <td
                     style={{ border: "1px solid black", gap: 30, width: "14%" }}
                   >
-                    {invoice.date}
-                  </td>
-                  <td
-                    style={{ border: "1px solid black", gap: 30, width: "14%" }}
-                  >
-                    {invoice.poNumber}
+                    {invoice[7]}
                   </td>
                   <td
                     style={{ border: "1px solid black", gap: 30, width: "14%" }}
@@ -239,7 +242,7 @@ const GenerateInvoicing = ({ state, dispatch }) => {
                   <td
                     style={{ border: "1px solid black", gap: 30, width: "14%" }}
                   >
-                    {invoice.clientWallet}
+                    {invoice[2]}
                   </td>
                   <td
                     style={{ border: "1px solid black", gap: 30, width: "14%" }}
@@ -263,17 +266,17 @@ const GenerateInvoicing = ({ state, dispatch }) => {
                   <td
                     style={{ border: "1px solid black", gap: 30, width: "14%" }}
                   >
-                    {invoice.invoiceId}
+                    {invoice[0]}
                   </td>
+                  {/*<td*/}
+                    {/*style={{ border: "1px solid black", gap: 30, width: "14%" }}*/}
+                  {/*>*/}
+                    {/*{invoice.date}*/}
+                  {/*</td>*/}
                   <td
                     style={{ border: "1px solid black", gap: 30, width: "14%" }}
                   >
-                    {invoice.date}
-                  </td>
-                  <td
-                    style={{ border: "1px solid black", gap: 30, width: "14%" }}
-                  >
-                    {invoice.poNumber}
+                    {invoice[7]}
                   </td>
                   <td
                     style={{ border: "1px solid black", gap: 30, width: "14%" }}
@@ -283,7 +286,7 @@ const GenerateInvoicing = ({ state, dispatch }) => {
                   <td
                     style={{ border: "1px solid black", gap: 30, width: "14%" }}
                   >
-                    {invoice.clientWallet}
+                    {invoice[2]}
                   </td>
                   <td
                     style={{ border: "1px solid black", gap: 30, width: "14%" }}
