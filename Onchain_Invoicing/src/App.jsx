@@ -14,6 +14,7 @@ const App = () => {
   const [state, dispatch] = useReducer(walletReducer, {
     invoices: [],
   });
+  const unpaidInvoicingString = sessionStorage.getItem("unpaid_invoicing");
 
   const { wallet } = useInvoiceContext();
   const [activeTab, setActiveTab] = useState(0);
@@ -24,10 +25,15 @@ const App = () => {
   return (
     <BrowserRouter>
       <div>
-        <h1 style={{ textAlign: "center", marginTop: "15%" }}>
+        <h1
+          style={{
+            textAlign: "center",
+            marginTop: !unpaidInvoicingString ? "15%" : 0,
+          }}
+        >
           Onchain Invoicing
         </h1>
-        {wallet && (
+        {unpaidInvoicingString && (
           <ul>
             <li>
               <Link

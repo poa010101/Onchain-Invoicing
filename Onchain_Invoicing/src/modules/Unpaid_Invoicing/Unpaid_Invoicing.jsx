@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { mockUnpaidData } from "./mockUpaidInvoicing";
+import "../Generate_Invoice/Generate_Invoice.css";
 
 const UnpaidInvoicing = () => {
   const [payInvoice, setPayInvoice] = useState(mockUnpaidData);
@@ -21,8 +22,8 @@ const UnpaidInvoicing = () => {
   };
 
   return (
-    <div>
-      <h1>Unpaid_Invoicing</h1>
+    <div className="table-container">
+      <h2>Unpaid Invoicing</h2>
       <table style={{ border: "1px solid black", width: "100%" }}>
         <thead>
           <tr>
@@ -82,7 +83,7 @@ const UnpaidInvoicing = () => {
                   style={{ border: "1px solid black", gap: 30, width: "14%" }}
                 >
                   <button
-                    style={{ textAlign: "center" }}
+                    className="button"
                     disabled={invoice.paid}
                     onClick={() => {
                       handlePay(invoice.invoiceId);
@@ -91,7 +92,7 @@ const UnpaidInvoicing = () => {
                     {!invoice.paid ? "Pay" : "Paid"}
                   </button>
                   <button
-                    style={{ textAlign: "center" }}
+                    className={`button decline-button`}
                     disabled={invoice.paid}
                     onClick={() => {
                       handleDecline(invoice.invoiceId);

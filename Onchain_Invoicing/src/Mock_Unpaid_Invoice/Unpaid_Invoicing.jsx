@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import "../modules/Generate_Invoice/Generate_Invoice.css";
 
 const Unpaid_Invoicing = () => {
   const unpaidInvoicingString = sessionStorage.getItem("unpaid_invoicing");
@@ -28,8 +29,8 @@ const Unpaid_Invoicing = () => {
   };
 
   return (
-    <div>
-      <h1>Unpaid_Invoicing</h1>
+    <div className="table-container">
+      <h2>Unpaid_Invoicing</h2>
       <table style={{ border: "1px solid black", width: "100%" }}>
         <thead>
           <tr>
@@ -89,7 +90,7 @@ const Unpaid_Invoicing = () => {
                   style={{ border: "1px solid black", gap: 30, width: "14%" }}
                 >
                   <button
-                    style={{ textAlign: "center" }}
+                    className="button"
                     disabled={invoice.paid}
                     onClick={() => {
                       handlePay(invoice.invoiceId);
@@ -98,7 +99,7 @@ const Unpaid_Invoicing = () => {
                     {!invoice.paid ? "Pay" : "Paid"}
                   </button>
                   <button
-                    style={{ textAlign: "center" }}
+                    className={`button decline-button`}
                     disabled={invoice.paid}
                     onClick={() => {
                       handleDecline(invoice.invoiceId);
