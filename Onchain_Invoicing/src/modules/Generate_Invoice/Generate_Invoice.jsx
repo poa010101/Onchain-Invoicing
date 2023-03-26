@@ -53,6 +53,7 @@ const GenerateInvoicing = ({ state, dispatch }) => {
   }
   async function handleCreate() {
     const gasPrice = await web.eth.getGasPrice();
+    // console.log(walletAddress, clientWallet, token_address)
     const gasEstimate = await contract.methods.createInvoice(walletAddress,
         clientWallet, amount, token_address, poNumber)
         .estimateGas({ from: walletAddress });
@@ -60,26 +61,23 @@ const GenerateInvoicing = ({ state, dispatch }) => {
     createInvoice(gasPrice, gasEstimate);
   }
   async function handleGetUnpaid (){
-    const gasPrice = await web.eth.getGasPrice();
-    const gasEstimate = await contract.methods.getUnpaidInvoice(walletAddress, 10)
-        .estimateGas({ from: walletAddress });
-    getUnpaidInvoice(gasPrice, gasEstimate)
+    const result = await contract.methods.getUnpaidInvoice(walletAddress).call();
+    console.log('Result of createInvoice:', result);
   }
-  const handleGetPaid = () => {
-    getPaidInvoice()
+  async function handleGetPaid () {
+    const result = await contract.methods.getPaidInvoice(walletAddress).call();
+    console.log('Result of getUnpaid:', result);
   }
   async function handleGetInfo () {
-    console.log('xxx3', contract.methods.getInvoiceByID(1))
-    const result = await contract.methods.getInvoiceByID(666).call();
+    // console.log('xxx3', contract.methods.getInvoiceByID(1))
+    const result = await contract.methods.getInvoiceByID(1).call();
     console.log('Result of info:', result);
   }
   async function getPaidInvoice() {
-    const result = await contract.methods.getUnpaidInvoice(walletAddress, 10).call();
-    console.log('Result of getUnpaid:', result);
+
   }
-  async function getUnpaidInvoice(gasPrice, gasEstimate) {
-    const result = await contract.methods.getUnpaidInvoice(walletAddress, 10).call();
-    console.log('Result of createInvoice:', result);
+  async function getUnpaidInvoice() {
+
   }
   async function createInvoiceTest() {
     const result = await contract.methods.createInvoice(walletAddress,

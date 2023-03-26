@@ -69,11 +69,6 @@
         "internalType": "address",
         "name": "fromWallet",
         "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "x",
-        "type": "uint256"
       }
     ],
     "name": "getGeneratedInvoice",
@@ -221,16 +216,24 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "getLargestInvoiceID",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "address",
         "name": "fromWallet",
         "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "x",
-        "type": "uint256"
       }
     ],
     "name": "getPaidInvoice",
@@ -307,11 +310,6 @@
         "internalType": "address",
         "name": "toWallet",
         "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "x",
-        "type": "uint256"
       }
     ],
     "name": "getUnpaidInvoice",
@@ -377,6 +375,19 @@
         "internalType": "struct InvoiceContract.Invoice[]",
         "name": "",
         "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "invoiceID",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",
