@@ -2,8 +2,6 @@ import React from "react";
 import { useInvoiceContext } from "../../context";
 
 const GenerateInvoicing = () => {
-  const { wallet } = useInvoiceContext();
-
   return (
     <div>
       <form>
@@ -14,9 +12,7 @@ const GenerateInvoicing = () => {
         <label>Client Wallet</label>
         <input />
 
-        <button>Send</button>
-        <button>Save and Exist</button>
-        <button>Withdrawal</button>
+        <button>Generate</button>
       </form>
     </div>
   );

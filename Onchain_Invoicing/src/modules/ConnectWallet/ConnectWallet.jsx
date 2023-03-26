@@ -1,12 +1,16 @@
 import { useState } from "react";
-import { useInvoiceContext } from "../../context";
+import { useNavigate } from "react-router-dom";
 import "./ConnectWallet.css";
 
 const mockNetworkList = ["Network", "OKX", "ETC", "MATIC"];
 
 const Login = () => {
-  const { wallet, setWallet } = useInvoiceContext; // if wallet connect, setWallet to true
   const [selectedNetwork, setSelectedNetwork] = useState(mockNetworkList[0]);
+  const navigateTo = useNavigate();
+
+  const handleWalletButton = () => {
+    navigateTo("/generate_invoicing");
+  };
 
   return (
     <div className="connectWallet">
@@ -26,7 +30,9 @@ const Login = () => {
           </option>
         ))}
       </select>
-      <button className="connectWallet_button">Connect Wallet</button>
+      <button className="connectWallet_button" onClick={handleWalletButton}>
+        Connect Wallet
+      </button>
     </div>
   );
 };
