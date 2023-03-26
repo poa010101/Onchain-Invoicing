@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
 
-
 pragma solidity ^0.8.0;
 
 contract InvoiceContract {
@@ -16,6 +15,7 @@ contract InvoiceContract {
         string POnumber;
         bool paid;
         bool active;
+        string transactionID;
     }
     
     Invoice[] public invoices;
@@ -37,7 +37,8 @@ contract InvoiceContract {
             currency,
             POnumber,
             false,
-            true
+            true,
+            ""
         ));
         
         if (invoices.length > 10000) {
@@ -45,11 +46,12 @@ contract InvoiceContract {
         }
     }
     
-    function payInvoice(uint256 invoiceID) public {
+    function payInvoice(uint256 invoiceID, string memory transactionID) public {
         require(invoices[invoiceID - 1].active == true, "Invoice does not exist.");
         require(invoices[invoiceID - 1].paid == false, "Invoice has already been paid.");
         invoices[invoiceID - 1].paid = true;
         invoices[invoiceID - 1].paidTime = block.timestamp;
+        invoices[invoiceID - 1].transactionID = transactionID;
     }
     
     function deactivateInvoice(uint256 invoiceID) public {
@@ -100,5 +102,3 @@ contract InvoiceContract {
         invoices.pop();
     }
 }
-
-
