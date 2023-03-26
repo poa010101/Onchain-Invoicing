@@ -63,7 +63,7 @@ contract InvoiceContract {
         uint256 resultCount = 0;
         Invoice[] memory results = new Invoice[](x);
         for (uint256 i = invoices.length - 1; i >= 0 && resultCount < x; i--) {
-            if (invoices[i].toWallet == toWallet && !invoices[i].paid) {
+            if (invoices[i].toWallet == toWallet && !invoices[i].paid && invoices[i].active) {
                 results[resultCount] = invoices[i];
                 resultCount++;
             }
@@ -75,7 +75,7 @@ contract InvoiceContract {
         uint256 resultCount = 0;
         Invoice[] memory results = new Invoice[](x);
         for (uint256 i = invoices.length - 1; i >= 0 && resultCount < x; i--) {
-            if (invoices[i].fromWallet == fromWallet && invoices[i].paid) {
+            if (invoices[i].fromWallet == fromWallet && invoices[i].paid && invoices[i].active) {
                 results[resultCount] = invoices[i];
                 resultCount++;
             }
@@ -100,5 +100,10 @@ contract InvoiceContract {
             invoices[i] = invoices[i + 1];
         }
         invoices.pop();
+    }
+
+    function getInvoiceByID(uint256 invoiceID) public view returns (Invoice memory) {
+        require(invoiceID > 0 && invoiceID <= invoices.length, "Invalid invoice ID");
+        return invoices[invoiceID - 1];
     }
 }
