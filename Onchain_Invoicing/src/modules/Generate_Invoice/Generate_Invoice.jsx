@@ -1,33 +1,29 @@
-import React from "react";
-import { Formik } from "formik";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useInvoiceContext } from "../../context";
 
 const GenerateInvoicing = () => {
+  const { wallet, walletAddress } = useInvoiceContext();
+  const navigateTo = useNavigate();
+
+  useEffect(() => {
+    if (wallet) {
+      navigateTo("/generate_invoicing");
+    }
+  });
   return (
     <div>
-      <h1>My Form</h1>
-      <Formik
-        initialValues={{ name: "jared" }}
-        onSubmit={(values, actions) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            actions.setSubmitting(false);
-          }, 1000);
-        }}
-      >
-        {(props) => (
-          <form onSubmit={props.handleSubmit}>
-            <input
-              type="text"
-              onChange={props.handleChange}
-              onBlur={props.handleBlur}
-              value={props.values.name}
-              name="name"
-            />
-            {props.errors.name && <div id="feedback">{props.errors.name}</div>}
-            <button type="submit">Submit</button>
-          </form>
-        )}
-      </Formik>
+      {console.log("xxxx", wallet, walletAddress)}
+      <form>
+        <label>PO. Number</label>
+        <input />
+        <label>Amount</label>
+        <input />
+        <label>Client Wallet</label>
+        <input />
+
+        <button>Generate</button>
+      </form>
     </div>
   );
 };
