@@ -9,12 +9,14 @@
 }
 
 .connectWallet_select {
-  padding: 0.5rem;
-  border-radius: 0.25rem;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
   border: none;
-  font-size: 1rem;
+  font-size: 1.2rem;
   background-color: #f5f5f5;
-  margin-right: 0.5rem;
+  margin-right: 1rem;
+  margin-left: 1rem;
+  width: 15rem;
 }
 
 .connectWallet_select:hover,
@@ -29,16 +31,41 @@
 }
 
 .connectWallet_button {
-  padding: 0.5rem;
-  border-radius: 0.25rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
   border: none;
-  font-size: 1rem;
+  font-size: 1.2rem;
   background-color: #f5f5f5;
   color: black;
+  width: 15rem;
 }
 
 .connectWallet_button:hover,
 .connectWallet_button:focus {
   background-color: #0077cc;
   color: white;
+}
+
+.button {
+  text-align: center;
+  margin: 0 5px;
+  background-color: #0077cc;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  width: 4rem;
+}
+
+.button:hover {
+  cursor: pointer;
+  background-color: black;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.decline-button {
+  background-color: red;
 }

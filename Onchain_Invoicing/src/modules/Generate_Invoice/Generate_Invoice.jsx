@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useInvoiceContext } from "../../context";
 import CurrencySelection from "../../components/CurrencySelection";
 
+import "./Generate_Invoice.css";
+
 const GenerateInvoicing = ({ state, dispatch }) => {
   const date = new Date().toLocaleString();
   const [poNumber, setPoNumber] = useState("");
@@ -16,8 +18,8 @@ const GenerateInvoicing = ({ state, dispatch }) => {
     setContract,
     web,
     setWeb,
-      network,
-      setNetwork,
+    network,
+    setNetwork,
     selectedNetwork,
     walletAddress,
     selectedCurrency,
@@ -53,143 +55,202 @@ const GenerateInvoicing = ({ state, dispatch }) => {
   const token_address = "0xe1382c12f1da57b83a0ea368bc1e5a0b70b303ff";
   // console.log("invoice:", invoice)
   const handleCreateTest = () => {
-    createInvoiceTest()
-  }
+    createInvoiceTest();
+  };
   async function handleCreate() {
     const gasPrice = await web.eth.getGasPrice();
     // console.log(walletAddress, clientWallet, token_address)
-    const gasEstimate = await contract.methods.createInvoice(walletAddress,
-        clientWallet, amount, token_address, poNumber)
-        .estimateGas({ from: walletAddress });
-    await console.log("gasPrice, gasEstimate:", gasPrice, gasEstimate)
+    const gasEstimate = await contract.methods
+      .createInvoice(
+        walletAddress,
+        clientWallet,
+        amount,
+        token_address,
+        poNumber
+      )
+      .estimateGas({ from: walletAddress });
+    await console.log("gasPrice, gasEstimate:", gasPrice, gasEstimate);
     createInvoice(gasPrice, gasEstimate);
   }
-  async function handleGetUnpaid (){
+  async function handleGetUnpaid() {
     // const result = await contract.methods.getUnpaidInvoice(walletAddress).call();
     const result = await contract.methods.getAllInvoice().call();
     await setInvoices(result);
-    await console.log('Result of createInvoice:', invoices);
+    await console.log("Result of createInvoice:", invoices);
   }
-  async function handleGetPaid () {
+  async function handleGetPaid() {
     // const result = await contract.methods.getPaidInvoice(walletAddress).call();
     // console.log('Result of getUnpaid:', result);
   }
-  async function handleGetInfo () {
+  async function handleGetInfo() {
     const result = await contract.methods.getInvoiceByID(1).call();
-    console.log('Result of info:', result);
-    console.log('passing address:', result[1], result[2]);
+    console.log("Result of info:", result);
+    console.log("passing address:", result[1], result[2]);
   }
 
   async function createInvoiceTest() {
-    const result = await contract.methods.createInvoice(walletAddress,
-        clientWallet, amount, token_address, poNumber).call();
-    console.log('Result of createInvoiceTest:', result);
+    const result = await contract.methods
+      .createInvoice(
+        walletAddress,
+        clientWallet,
+        amount,
+        token_address,
+        poNumber
+      )
+      .call();
+    console.log("Result of createInvoiceTest:", result);
   }
   async function createInvoice(gasPrice, gasEstimate) {
-    const result = await contract.methods.createInvoice(walletAddress,
-        clientWallet, amount, token_address, poNumber)
-        .send({ from: walletAddress, gasPrice, gas: gasEstimate })
-        .on('transactionHash', (hash) => {
-          console.log('Transaction hash:', hash);
-        })
-        .on('receipt', (receipt) => {
-          console.log('Transaction receipt:', receipt);
-        })
-        .on('error', (error) => {
-          console.error('Transaction error:', error);
-        });
-    console.log('Result of createInvoice:', result);
+    const result = await contract.methods
+      .createInvoice(
+        walletAddress,
+        clientWallet,
+        amount,
+        token_address,
+        poNumber
+      )
+      .send({ from: walletAddress, gasPrice, gas: gasEstimate })
+      .on("transactionHash", (hash) => {
+        console.log("Transaction hash:", hash);
+      })
+      .on("receipt", (receipt) => {
+        console.log("Transaction receipt:", receipt);
+      })
+      .on("error", (error) => {
+        console.error("Transaction error:", error);
+      });
+    console.log("Result of createInvoice:", result);
   }
-
 
   // 0xe1382c12f1da57b83a0ea368bc1e5a0b70b303ff
   return (
     <div className="App">
-      <nav>
-        <div style={{ border: "1px solid black", width: "50%" }}>
-          Current Network: {selectedNetwork}
-        </div>
-        <div style={{ border: "1px solid black", width: "50%", marginTop: 10 }}>
-          Wallet Address: {walletAddress}
-        </div>
-      </nav>
-      <h1>Generate Invoice</h1>
-      <form>
-        <div>Date: {date} </div>
-        <div style={{ marginTop: 10 }}>
-          <label>PO Number: </label>
-          <input onChange={(e) => setPoNumber(e.target.value)} />
-        </div>
-        <div style={{ marginTop: 10 }}>
-          <label>Amount: </label>
-          <input onChange={(e) => setAmount(e.target.value)} />
-          <CurrencySelection />
-        </div>
-        <div style={{ marginTop: 10 }}>
-          <label>Client Wallet: </label>
-          <input onChange={(e) => setClientWallet(e.target.value)} />
-        </div>
-        {/*<button*/}
+      <div className="info-container">
+        <div className="info-box">Current Network: {selectedNetwork}</div>
+        <div className="info-box">Wallet Address: {walletAddress}</div>
+      </div>
+
+      <div className="form-container">
+        <h2>Generate Invoice</h2>
+        <form>
+          <div>
+            <label>
+              Date:{" "}
+              <span style={{ fontWeight: "bold", marginLeft: "4em" }}>
+                {date}
+              </span>
+            </label>
+          </div>
+          <div
+            style={{
+              marginTop: 10,
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <label style={{ marginRight: "0.5rem" }}>PO Number:</label>
+            <input
+              onChange={(e) => setPoNumber(e.target.value)}
+              style={{
+                flex: "1",
+                border: "1px solid black",
+                marginLeft: "1em",
+              }}
+            />
+          </div>
+
+          <div
+            style={{
+              marginTop: 10,
+              display: "flex",
+              alignItems: "center",
+              marginLeft: "5.4rem",
+            }}
+          >
+            <label style={{ marginRight: "0.5rem" }}>Amount:</label>
+            <input
+              onChange={(e) => setAmount(e.target.value)}
+              style={{
+                flex: "1",
+                border: "1px solid black",
+                marginLeft: "2.4em",
+              }}
+            />
+            <CurrencySelection />
+          </div>
+
+          <div style={{ marginTop: 10, display: "flex", alignItems: "center" }}>
+            <label style={{ marginRight: "0.5rem" }}>Client Wallet:</label>
+            <input
+              onChange={(e) => setClientWallet(e.target.value)}
+              style={{
+                flex: "1",
+                border: "1px solid black",
+              }}
+            />
+          </div>
+
+          {/*<button*/}
           {/*style={{ marginTop: 10, marginBottom: 30 }}*/}
           {/*onClick={(e) => {*/}
-            {/*e.preventDefault();*/}
-            {/*dispatch({*/}
-              {/*type: "GENERATE_INVOICE",*/}
-              {/*payload: {*/}
-                {/*invoiceId: Math.floor(Math.random() * 1000000000000000),*/}
-                {/*date: date,*/}
-                {/*poNumber: poNumber,*/}
-                {/*amount: amount,*/}
-                {/*clientWallet: clientWallet,*/}
-                {/*paid: false,*/}
-                {/*active: true,*/}
-              {/*},*/}
-            {/*});*/}
+          {/*e.preventDefault();*/}
+          {/*dispatch({*/}
+          {/*type: "GENERATE_INVOICE",*/}
+          {/*payload: {*/}
+          {/*invoiceId: Math.floor(Math.random() * 1000000000000000),*/}
+          {/*date: date,*/}
+          {/*poNumber: poNumber,*/}
+          {/*amount: amount,*/}
+          {/*clientWallet: clientWallet,*/}
+          {/*paid: false,*/}
+          {/*active: true,*/}
+          {/*},*/}
+          {/*});*/}
           {/*}}*/}
-        {/*>*/}
+          {/*>*/}
           {/*Generate*/}
-        {/*</button>*/}
-      </form>
+          {/*</button>*/}
+        </form>
 
-      <div>
         {/*<button*/}
-            {/*onClick={(e) => {*/}
-              {/*handleCreateTest()*/}
-            {/*}}*/}
+        {/*onClick={(e) => {*/}
+        {/*handleCreateTest()*/}
+        {/*}}*/}
         {/*>*/}
-          {/*Test create*/}
+        {/*Test create*/}
         {/*</button>*/}
-        <button style={{gap:4}}
-            onClick={(e) => {
-              handleCreate()
-            }}
+        <button
+          style={{ gap: 4 }}
+          onClick={(e) => {
+            handleCreate();
+          }}
         >
           Create Invoice
         </button>
-        <button style={{gap:4}}
-            onClick={(e) => {
-              handleGetUnpaid()
-            }}
+        <button
+          style={{ gap: 4 }}
+          onClick={(e) => {
+            handleGetUnpaid();
+          }}
         >
           Get All
         </button>
         {/*<button*/}
-            {/*onClick={(e) => {*/}
-              {/*handleGetPaid()*/}
-            {/*}}*/}
+        {/*onClick={(e) => {*/}
+        {/*handleGetPaid()*/}
+        {/*}}*/}
         {/*>*/}
-          {/*Get Paid*/}
+        {/*Get Paid*/}
         {/*</button>*/}
         {/*<button*/}
-            {/*onClick={(e) => {*/}
-              {/*handleGetInfo()*/}
-            {/*}}*/}
+        {/*onClick={(e) => {*/}
+        {/*handleGetInfo()*/}
+        {/*}}*/}
         {/*>*/}
-          {/*Get Info*/}
+        {/*Get Info*/}
         {/*</button>*/}
       </div>
-
-      <h1>Wallet Invoices Record</h1>
+      <h2 className="table-container">Wallet Invoices Record</h2>
       <table style={{ border: "1px solid black", width: "100%" }}>
         <thead>
           <tr>
@@ -229,7 +290,7 @@ const GenerateInvoicing = ({ state, dispatch }) => {
                   <td
                     style={{ border: "1px solid black", gap: 30, width: "14%" }}
                   >
-                    {Date(invoice[3]* 1000)}
+                    {Date(invoice[3] * 1000)}
                   </td>
                   <td
                     style={{ border: "1px solid black", gap: 30, width: "14%" }}
@@ -273,7 +334,7 @@ const GenerateInvoicing = ({ state, dispatch }) => {
                   <td
                     style={{ border: "1px solid black", gap: 30, width: "14%" }}
                   >
-                    {Date(invoice[3]* 1000)}
+                    {Date(invoice[3] * 1000)}
                   </td>
                   <td
                     style={{ border: "1px solid black", gap: 30, width: "14%" }}
