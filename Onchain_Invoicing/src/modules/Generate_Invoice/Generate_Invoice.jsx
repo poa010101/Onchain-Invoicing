@@ -224,11 +224,11 @@ const GenerateInvoicing = ({ state, dispatch }) => {
                   >
                     {invoice[0]}
                   </td>
-                  {/*<td*/}
-                    {/*style={{ border: "1px solid black", gap: 30, width: "14%" }}*/}
-                  {/*>*/}
-                    {/*{invoice.date}*/}
-                  {/*</td>*/}
+                  <td
+                    style={{ border: "1px solid black", gap: 30, width: "14%" }}
+                  >
+                    {Date(invoice[3]* 1000)}
+                  </td>
                   <td
                     style={{ border: "1px solid black", gap: 30, width: "14%" }}
                   >
@@ -268,11 +268,11 @@ const GenerateInvoicing = ({ state, dispatch }) => {
                   >
                     {invoice[0]}
                   </td>
-                  {/*<td*/}
-                    {/*style={{ border: "1px solid black", gap: 30, width: "14%" }}*/}
-                  {/*>*/}
-                    {/*{invoice.date}*/}
-                  {/*</td>*/}
+                  <td
+                    style={{ border: "1px solid black", gap: 30, width: "14%" }}
+                  >
+                    {Date(invoice[3]* 1000)}
+                  </td>
                   <td
                     style={{ border: "1px solid black", gap: 30, width: "14%" }}
                   >
