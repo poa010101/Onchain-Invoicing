@@ -4,12 +4,20 @@ import { mockUnpaidData } from "./mockUpaidInvoicing";
 const UnpaidInvoicing = () => {
   const [payInvoice, setPayInvoice] = useState(mockUnpaidData);
 
-  const handleButton = (invoiceId) => {
+  const handlePay = (invoiceId) => {
     const updatedInvoice = payInvoice.map((invoice) =>
       invoice.invoiceId === invoiceId ? { ...invoice, paid: true } : invoice
     );
     setPayInvoice(updatedInvoice);
     alert("You have Paid");
+  };
+
+  const handleDecline = (invoiceId) => {
+    const updatedInvoice = payInvoice.filter(
+      (invoice) => invoice.invoiceId !== invoiceId
+    );
+    setPayInvoice(updatedInvoice);
+    alert("You have Declined");
   };
 
   return (
@@ -77,10 +85,19 @@ const UnpaidInvoicing = () => {
                     style={{ textAlign: "center" }}
                     disabled={invoice.paid}
                     onClick={() => {
-                      handleButton(invoice.invoiceId);
+                      handlePay(invoice.invoiceId);
                     }}
                   >
                     {!invoice.paid ? "Pay" : "Paid"}
+                  </button>
+                  <button
+                    style={{ textAlign: "center" }}
+                    disabled={invoice.paid}
+                    onClick={() => {
+                      handleDecline(invoice.invoiceId);
+                    }}
+                  >
+                    Decline
                   </button>
                 </td>
                 <td
