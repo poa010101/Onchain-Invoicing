@@ -1,7 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useInvoiceContext } from "../../context";
 
 const GenerateInvoicing = () => {
+  const { wallet } = useInvoiceContext();
+  const navigateTo = useNavigate();
+
+  useEffect(() => {
+    if (wallet) {
+      navigateTo("/generate_invoicing");
+    }
+  });
   return (
     <div>
       <form>
