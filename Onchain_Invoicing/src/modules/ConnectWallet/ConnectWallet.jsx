@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useInvoiceContext } from "../../context";
+import { useNavigate } from "react-router-dom";
+
 import Web3 from "web3";
 import "./ConnectWallet.css";
 
@@ -9,6 +11,8 @@ const Login = () => {
   const { wallet, walletAddress, setWallet, setWalletAddress } =
     useInvoiceContext();
   const [selectedNetwork, setSelectedNetwork] = useState(mockNetworkList[0]);
+
+  const navigateTo = useNavigate();
 
   async function connectWallet() {
     try {
@@ -44,8 +48,15 @@ const Login = () => {
     connectWallet();
   };
 
+  useEffect(() => {
+    if (wallet) {
+      navigateTo("/generate_invoicing");
+    }
+  });
+
   return (
     <div className="connectWallet">
+      {console.log("xxxx", wallet, walletAddress)}
       <select
         id="network-select"
         value={selectedNetwork}
