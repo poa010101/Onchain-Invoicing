@@ -1,9 +1,20 @@
+import {useInvoiceContext} from "../../context";
+
 const PaidInvoicing = () => {
   const paidInvoicingString = sessionStorage.getItem("paid_invoicing");
-  const paidInvoicing = JSON.parse(paidInvoicingString);
+  // const paidInvoicing = JSON.parse(paidInvoicingString);
+  const {
+    web,
+    walletAddress,
+    invoices,
+    setInvoices,
+  } = useInvoiceContext();
+  const paidInvoicing = invoices.filter(
+      (invoice) => invoice.paid === true
+  );
   return (
     <div>
-      <h1>Unpaid_Invoicing</h1>
+      <h1>Paid_Invoicing</h1>
       <table style={{ border: "1px solid black", width: "100%" }}>
         <thead>
           <tr>
@@ -38,17 +49,17 @@ const PaidInvoicing = () => {
                   <td
                     style={{ border: "1px solid black", gap: 30, width: "14%" }}
                   >
-                    {invoice.invoiceId}
+                    {invoice[0]}
                   </td>
                   <td
                     style={{ border: "1px solid black", gap: 30, width: "14%" }}
                   >
-                    {invoice.date}
+                    {Date(invoice[3]* 1000)}
                   </td>
                   <td
                     style={{ border: "1px solid black", gap: 30, width: "14%" }}
                   >
-                    {invoice.poNumber}
+                    {invoice[7]}
                   </td>
                   <td
                     style={{ border: "1px solid black", gap: 30, width: "14%" }}
@@ -58,7 +69,7 @@ const PaidInvoicing = () => {
                   <td
                     style={{ border: "1px solid black", gap: 30, width: "14%" }}
                   >
-                    {invoice.clientWallet}
+                    {invoice[2]}
                   </td>
                   <td
                     style={{ border: "1px solid black", gap: 30, width: "14%" }}

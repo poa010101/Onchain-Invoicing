@@ -21,6 +21,8 @@ const Login = () => {
     setContract,
     web,
     setWeb,
+    invoices,
+    setInvoices,
   } = useInvoiceContext();
 
   const navigateTo = useNavigate();
@@ -40,7 +42,7 @@ const Login = () => {
       console.log("xxxx21", accounts[0], wallet, walletAddress);
 
       if (accounts[0].length > 0) {
-        console.log("xxx");
+        console.log(CONTRACT_ADDRESS);
         const contractInstance = new web.eth.Contract(
           contractAbi,
           CONTRACT_ADDRESS
@@ -48,6 +50,9 @@ const Login = () => {
         setContract(contractInstance);
         await setWalletAddress(accounts[0]);
         // await initializeWeb3(accounts[0]);
+        // const res = await contract.methods.getAllInvoice().call();
+        // await setInvoices(res);
+        // await console.log(invoices);
         await setWallet(true);
       }
       console.log('xxxx1', contract)

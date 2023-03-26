@@ -7,23 +7,24 @@ const UnpaidInvoicing = () => {
   const {
     web,
     walletAddress,
-
+    invoices,
+    setInvoices,
   } = useInvoiceContext();
   const handlePay = (invoiceId) => {
     ethPay("0xBa94cA55Bb24617D56EE67D659083A577339BC01", 1);
-    const updatedInvoice = payInvoice.map((invoice) =>
-      invoice.invoiceId === invoiceId ? { ...invoice, paid: true } : invoice
+    const updatedInvoice = invoices.map((invoice) =>
+      invoice[0] === invoiceId ? { ...invoice, paid: true } : invoice
     );
 
-    setPayInvoice(updatedInvoice);
+    setInvoices(updatedInvoice);
     alert("You have Paid");
   };
 
   const handleDecline = (invoiceId) => {
-    const updatedInvoice = payInvoice.filter(
+    const updatedInvoice = invoices.filter(
       (invoice) => invoice.invoiceId !== invoiceId
     );
-    setPayInvoice(updatedInvoice);
+    setInvoices(updatedInvoice);
     alert("You have Declined");
   };
 
@@ -86,23 +87,23 @@ const UnpaidInvoicing = () => {
           </tr>
         </thead>
         <tbody>
-          {payInvoice.map((invoice, index) => {
+          {invoices.map((invoice, index) => {
             return (
               <tr key={index}>
                 <td
                   style={{ border: "1px solid black", gap: 30, width: "14%" }}
                 >
-                  {invoice.invoiceId}
+                  {invoice[0]}
                 </td>
                 <td
                   style={{ border: "1px solid black", gap: 30, width: "14%" }}
                 >
-                  {invoice.date}
+                  {Date(invoice[3]* 1000)}
                 </td>
                 <td
                   style={{ border: "1px solid black", gap: 30, width: "14%" }}
                 >
-                  {invoice.poNumber}
+                  {invoice[7]}
                 </td>
                 <td
                   style={{ border: "1px solid black", gap: 30, width: "14%" }}
@@ -112,7 +113,7 @@ const UnpaidInvoicing = () => {
                 <td
                   style={{ border: "1px solid black", gap: 30, width: "14%" }}
                 >
-                  {invoice.clientWallet}
+                  {invoice[2]}
                 </td>
                 <td
                   style={{ border: "1px solid black", gap: 30, width: "14%" }}
@@ -121,7 +122,7 @@ const UnpaidInvoicing = () => {
                     style={{ textAlign: "center" }}
                     disabled={invoice.paid}
                     onClick={() => {
-                      handlePay(invoice.invoiceId);
+                      handlePay(invoice[0]);
                     }}
                   >
                     {!invoice.paid ? "Pay" : "Paid"}
@@ -130,7 +131,7 @@ const UnpaidInvoicing = () => {
                     style={{ textAlign: "center" }}
                     disabled={invoice.paid}
                     onClick={() => {
-                      handleDecline(invoice.invoiceId);
+                      handleDecline(invoice[0]);
                     }}
                   >
                     Decline

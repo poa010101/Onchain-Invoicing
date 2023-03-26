@@ -16,9 +16,13 @@ const GenerateInvoicing = ({ state, dispatch }) => {
     setContract,
     web,
     setWeb,
+      network,
+      setNetwork,
     selectedNetwork,
     walletAddress,
     selectedCurrency,
+    invoices,
+    setInvoices,
   } = useInvoiceContext();
 
   useEffect(() => {
@@ -30,7 +34,7 @@ const GenerateInvoicing = ({ state, dispatch }) => {
   const paidInvoicing = JSON.parse(paidInvoicingString);
   // console.log("xxxx", state);
   // console.log("web:", web);
-  console.log("contract:", contract);
+  // console.log("contract:", contract);
 
   /*
   * address fromWallet,
@@ -63,7 +67,8 @@ const GenerateInvoicing = ({ state, dispatch }) => {
   async function handleGetUnpaid (){
     // const result = await contract.methods.getUnpaidInvoice(walletAddress).call();
     const result = await contract.methods.getAllInvoice().call();
-    console.log('Result of createInvoice:', result);
+    await setInvoices(result);
+    await console.log('Result of createInvoice:', invoices);
   }
   async function handleGetPaid () {
     // const result = await contract.methods.getPaidInvoice(walletAddress).call();
@@ -124,64 +129,64 @@ const GenerateInvoicing = ({ state, dispatch }) => {
           <label>Client Wallet: </label>
           <input onChange={(e) => setClientWallet(e.target.value)} />
         </div>
-        <button
-          style={{ marginTop: 10, marginBottom: 30 }}
-          onClick={(e) => {
-            e.preventDefault();
-            dispatch({
-              type: "GENERATE_INVOICE",
-              payload: {
-                invoiceId: Math.floor(Math.random() * 1000000000000000),
-                date: date,
-                poNumber: poNumber,
-                amount: amount,
-                clientWallet: clientWallet,
-                paid: false,
-                active: true,
-              },
-            });
-          }}
-        >
-          Generate
-        </button>
+        {/*<button*/}
+          {/*style={{ marginTop: 10, marginBottom: 30 }}*/}
+          {/*onClick={(e) => {*/}
+            {/*e.preventDefault();*/}
+            {/*dispatch({*/}
+              {/*type: "GENERATE_INVOICE",*/}
+              {/*payload: {*/}
+                {/*invoiceId: Math.floor(Math.random() * 1000000000000000),*/}
+                {/*date: date,*/}
+                {/*poNumber: poNumber,*/}
+                {/*amount: amount,*/}
+                {/*clientWallet: clientWallet,*/}
+                {/*paid: false,*/}
+                {/*active: true,*/}
+              {/*},*/}
+            {/*});*/}
+          {/*}}*/}
+        {/*>*/}
+          {/*Generate*/}
+        {/*</button>*/}
       </form>
 
       <div>
-        <button
-            onClick={(e) => {
-              handleCreateTest()
-            }}
-        >
-          Test create
-        </button>
-        <button
+        {/*<button*/}
+            {/*onClick={(e) => {*/}
+              {/*handleCreateTest()*/}
+            {/*}}*/}
+        {/*>*/}
+          {/*Test create*/}
+        {/*</button>*/}
+        <button style={{gap:4}}
             onClick={(e) => {
               handleCreate()
             }}
         >
           Create Invoice
         </button>
-        <button
+        <button style={{gap:4}}
             onClick={(e) => {
               handleGetUnpaid()
             }}
         >
-          Get Unpaid
+          Get All
         </button>
-        <button
-            onClick={(e) => {
-              handleGetPaid()
-            }}
-        >
-          Get Paid
-        </button>
-        <button
-            onClick={(e) => {
-              handleGetInfo()
-            }}
-        >
-          Get Info
-        </button>
+        {/*<button*/}
+            {/*onClick={(e) => {*/}
+              {/*handleGetPaid()*/}
+            {/*}}*/}
+        {/*>*/}
+          {/*Get Paid*/}
+        {/*</button>*/}
+        {/*<button*/}
+            {/*onClick={(e) => {*/}
+              {/*handleGetInfo()*/}
+            {/*}}*/}
+        {/*>*/}
+          {/*Get Info*/}
+        {/*</button>*/}
       </div>
 
       <h1>Wallet Invoices Record</h1>
@@ -213,33 +218,33 @@ const GenerateInvoicing = ({ state, dispatch }) => {
         </thead>
         {!paidInvoicing ? (
           <tbody>
-            {state.invoices.map((invoice, index) => {
+            {invoices.map((invoice, index) => {
               return (
                 <tr key={index}>
                   <td
                     style={{ border: "1px solid black", gap: 30, width: "14%" }}
                   >
-                    {invoice.invoiceId}
+                    {invoice[0]}
                   </td>
                   <td
                     style={{ border: "1px solid black", gap: 30, width: "14%" }}
                   >
-                    {invoice.date}
+                    {Date(invoice[3]* 1000)}
                   </td>
                   <td
                     style={{ border: "1px solid black", gap: 30, width: "14%" }}
                   >
-                    {invoice.poNumber}
+                    {invoice[7]}
                   </td>
                   <td
                     style={{ border: "1px solid black", gap: 30, width: "14%" }}
                   >
-                    {invoice.amount} {selectedCurrency}
+                    {invoice.amount} {selectedNetwork}
                   </td>
                   <td
                     style={{ border: "1px solid black", gap: 30, width: "14%" }}
                   >
-                    {invoice.clientWallet}
+                    {invoice[2]}
                   </td>
                   <td
                     style={{ border: "1px solid black", gap: 30, width: "14%" }}
@@ -263,27 +268,27 @@ const GenerateInvoicing = ({ state, dispatch }) => {
                   <td
                     style={{ border: "1px solid black", gap: 30, width: "14%" }}
                   >
-                    {invoice.invoiceId}
+                    {invoice[0]}
                   </td>
                   <td
                     style={{ border: "1px solid black", gap: 30, width: "14%" }}
                   >
-                    {invoice.date}
+                    {Date(invoice[3]* 1000)}
                   </td>
                   <td
                     style={{ border: "1px solid black", gap: 30, width: "14%" }}
                   >
-                    {invoice.poNumber}
+                    {invoice[7]}
                   </td>
                   <td
                     style={{ border: "1px solid black", gap: 30, width: "14%" }}
                   >
-                    {invoice.amount} {selectedCurrency}
+                    {invoice.amount} {selectedNetwork}
                   </td>
                   <td
                     style={{ border: "1px solid black", gap: 30, width: "14%" }}
                   >
-                    {invoice.clientWallet}
+                    {invoice[2]}
                   </td>
                   <td
                     style={{ border: "1px solid black", gap: 30, width: "14%" }}
